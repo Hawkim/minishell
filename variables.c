@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 09:51:05 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/09 15:06:59 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/12 10:06:55 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,23 @@ char	*search_env(char *var, char **env)
 	return (NULL);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-    // if (argc != 2) {
-    //     fprintf(stderr, "Usage: %s <VARIABLE_NAME>\n", argv[0]);
-    //     return EXIT_FAILURE;
-    // }
-	(void)argc;
-	(void)argv;
-    char *var = "$PATH";
-    char *def;
-	def = search_env(var, envp);
-    if (def)
-	{
-        printf("Definition of %s: %s\n", var, def);
-        free(def); // Free the allocated memory for the definition
-    }
-	else
-        printf("Variable %s not found.\n", var);
-    return EXIT_SUCCESS;
-}
+// int main(int argc, char **argv, char **envp)
+// {
+//     // if (argc != 2) {
+//     //     fprintf(stderr, "Usage: %s <VARIABLE_NAME>\n", argv[0]);
+//     //     return EXIT_FAILURE;
+//     // }
+// 	(void)argc;
+// 	(void)argv;
+//     char *var = "$PATH";
+//     char *def;
+// 	def = search_env(var, envp);
+//     if (def)
+// 	{
+//         printf("Definition of %s: %s\n", var, def);
+//         free(def); // Free the allocated memory for the definition
+//     }
+// 	else
+//         printf("Variable %s not found.\n", var);
+//     return EXIT_SUCCESS;
+// }

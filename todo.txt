@@ -1,0 +1,4 @@
+1. update the pwd and oldpwd in the env when executing cd
+2. fix the pipe issue where it's doing an infinite loop.
+
+

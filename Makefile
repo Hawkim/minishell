@@ -6,13 +6,12 @@ CC = gcc
 # CFLAGS = -Wall -Wextra -Werror
 
 # Source files
-SRCS = parsing.c j.c utils.c states.c
+SRCS = main.c parsing.c j.c utils.c states.c variables.c parse2exec.c
 
 # Object files (corresponding .o files for each .c file)
 OBJS = $(SRCS:.c=.o)
 
-# Executable name
-
+FLAGS = -Wall -Wextra -Werror
 # Default target
 all: $(NAME)
 

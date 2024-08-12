@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:57:28 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/09 17:00:32 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:12:20 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_linkedlist_node	*ftlexer(char *s)
 // int main(int argc, char **argv, char **envp)
 // {
 // 	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\" ";
-// 	char   a[] = "$PATH";
+// 	char   a[] = " $PATH ";
 // 	// Call the lexer function
 // 	t_linkedlist_node *tokens = ftlexer(a);
 
