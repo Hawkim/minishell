@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   j.c                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:57:28 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/12 10:12:20 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:22:15 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef	struct	{
+typedef struct param{
 	char				*s;
 	int					*i;
 	char				**current_token;
 	t_linkedlist_node	**token_list;
 	char				**state;
-} ProcessParams;
+	int					is_pipe;
+}	t_ProcessParams;
 
 static void	reset_current_token(char **current_token)
 {
@@ -58,7 +59,7 @@ static void	handle_operator(char **current_token,
 	append(token_list, operator);
 }
 
-static void	process_character(ProcessParams *params)
+static void	process_character(t_ProcessParams *params)
 {
 	if (params->s[*params->i] == ' ')
 		handle_space(params->current_token, params->token_list);
@@ -73,7 +74,7 @@ static void	process_character(ProcessParams *params)
 		strncat(*params->current_token, &params->s[*params->i], 1);
 }
 
-static void	process_state(ProcessParams *params)
+static void	process_state(t_ProcessParams *params)
 {
 	if (strcmp(*params->state, INITIAL) == 0)
 		process_character(params);
@@ -93,27 +94,29 @@ static void	process_state(ProcessParams *params)
 	}
 }
 
-t_linkedlist_node	*ftlexer(char *s)
+t_linkedlist_node	*ftlexer(char *s, char **envp)
 {
 	t_linkedlist_node	*token_list;
 	char				*state;
 	char				*current_token;
 	int					i;
 
-	if (!current_token)
-		exit(EXIT_FAILURE);
 	token_list = NULL;
 	state = INITIAL;
 	current_token = malloc(1024);
 	i = 0;
+	if (!current_token)
+		exit(EXIT_FAILURE);
 	current_token[0] = '\0';
-	ProcessParams params = {s, &i, &current_token, &token_list, &state};
+	// search_string(s, envp);
+	t_ProcessParams params = {s, &i, &current_token, &token_list, &state};
 	while (s[i] != '\0')
 	{
 		process_state(&params);
 		i++;
 	}
 	append_token_if_not_empty(&current_token, &token_list);
+	search_tokens(*(&token_list), envp);
 	free(current_token);
 	return (token_list);
 }
@@ -121,9 +124,9 @@ t_linkedlist_node	*ftlexer(char *s)
 // int main(int argc, char **argv, char **envp)
 // {
 // 	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\" ";
-// 	char   a[] = " $PATH ";
+// 	char   a[] = "$PATH";
 // 	// Call the lexer function
-// 	t_linkedlist_node *tokens = ftlexer(a);
+// 	t_linkedlist_node *tokens = ftlexer(input);
 
 // 	(void)argv;
 // 	(void)argc;

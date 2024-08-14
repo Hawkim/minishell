@@ -3,14 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 09:51:05 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/12 10:06:55 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:53:07 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+// #include "libft.h"
+
+// typedef struct node
+// {
+// 	struct node	*next;
+// 	char		*data;
+// }	t_env;
+
+// t_env	*free_env(t_env *head, t_env *current)
+// {
+// 	while (head)
+// 	{
+// 		current = head;
+// 		head = head ->next;
+// 		free(current->data);
+// 		free(current);
+// 	}
+// 	return (NULL);
+// }
+
+// t_env	*create_env(char **env)
+// {
+// 	int		i;
+// 	t_env	*head;
+// 	t_env	*current;
+// 	t_env	*prev;
+
+// 	i = 0;
+// 	head = NULL;
+// 	current = NULL;
+// 	prev = NULL;
+// 	if (env == NULL)
+// 		return (NULL);
+// 	while (env[i] != NULL)
+// 	{
+// 		current = (t_env *)malloc(sizeof(t_env));
+// 		if (current == NULL)
+// 			return (free_env(head, current));
+// 		current->data = ft_strdup(env[i]);
+// 		if (current->data == NULL)
+// 			return (free_env(head, current));
+// 		current->next = NULL;
+// 		if (prev == NULL)
+// 			head = current;
+// 		else
+// 			prev->next = current;
+// 		prev = current;
+// 		i++;
+// 	}
+// 	return (head);
+// }
 
 char	*fill_word(char *def, char **env, int i, int j)
 {
@@ -50,6 +101,27 @@ char	*search_env(char *var, char **env)
 	return (NULL);
 }
 
+void	search_tokens(t_linkedlist_node *token_list, char **env)
+{
+	t_linkedlist_node	*current;
+	char				*def;
+
+	current = token_list;
+	while (current != NULL)
+	{
+		if (current->data[0] == '$' && (current->state != IN_SQUOTE))
+		{
+			def = search_env(current->data, env);
+			if (def != NULL)
+			{
+				current->data = strdup(def);
+				free(def);
+			}
+		}
+		current = current->next;
+	}
+}
+
 // int main(int argc, char **argv, char **envp)
 // {
 //     // if (argc != 2) {
@@ -58,8 +130,19 @@ char	*search_env(char *var, char **env)
 //     // }
 // 	(void)argc;
 // 	(void)argv;
-//     char *var = "$PATH";
+//     char *var = "$HOME";
+// 	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep \" \" $PATH hello\"'\"a ";
 //     char *def;
+// 	t_linkedlist_node *tokens = ftlexer(input, envp);
+// 		printf("Tokens:\n");
+// 	print_tokens(tokens);
+
+// 	// char *d =  search_tokens(tokens, envp);
+// 	// if (d)
+// 	// {
+// 	// 	printf("%s\n", d);
+// 	// 	free(d);
+// 	// }
 // 	def = search_env(var, envp);
 //     if (def)
 // 	{
@@ -68,5 +151,14 @@ char	*search_env(char *var, char **env)
 //     }
 // 	else
 //         printf("Variable %s not found.\n", var);
+// 	// Free the linked list
+// 	t_linkedlist_node *current = tokens;
+// 	t_linkedlist_node *next;
+// 	while (current != NULL) {
+// 		next = current->next;
+// 		free(current->data);
+// 		free(current);
+// 		current = next;
+// 	}
 //     return EXIT_SUCCESS;
 // }
