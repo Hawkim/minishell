@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/14 11:37:00 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/15 15:48:55 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,9 @@ void				print_tokens(t_linkedlist_node *list);
 void				search_tokens(t_linkedlist_node *token_list, char **env);
 char				*search_env(char *var, char **env);
 char				*search_string(char *s, char **env);
+
+t_linkedlist_node *ftlexer(char *s, char **envp);
+void print_tokens(t_linkedlist_node *tokens);
+
 
 #endif
