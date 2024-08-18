@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexering.c                                         :+:      :+:    :+:   */
+/*   testcase.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:57:28 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/18 02:48:15 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:16:39 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <ctype.h>
+
 typedef	struct	{
 	char				*s;
 	int					*i;
@@ -92,83 +92,6 @@ static void	process_state(ProcessParams *params)
 			strncat(*params->current_token, &params->s[*params->i], 1);
 	}
 }
-char *process_and_expand(const char *input) {
-    size_t len = strlen(input);
-    char *result = malloc(len + 1);
-    if (!result) {
-        perror("malloc failed");
-        exit(EXIT_FAILURE);
-    }
-    size_t result_len = 0;
-    
-    int in_single_quotes = 0;
-    int in_double_quotes = 0;
-    const char *pos = input;
-
-    while (*pos) {
-        if (*pos == '\'') {
-            in_single_quotes = !in_single_quotes;
-            result[result_len++] = *pos++;
-        } else if (*pos == '\"') {
-            in_double_quotes = !in_double_quotes;
-            result[result_len++] = *pos++;
-        } else if (*pos == '$' && !in_single_quotes) {
-            pos++;
-            const char *start = pos;
-            while (*pos && (isalnum(*pos) || *pos == '_')) {
-                pos++;
-            }
-            size_t var_len = pos - start;
-            char var_name[var_len + 1];
-            strncpy(var_name, start, var_len);
-            var_name[var_len] = '\0';
-
-            char *env_value = getenv(var_name);
-            if (env_value) {
-                size_t env_len = strlen(env_value);
-                result = realloc(result, result_len + env_len + 1);
-                if (!result) {
-                    perror("realloc failed");
-                    exit(EXIT_FAILURE);
-                }
-                memcpy(result + result_len, env_value, env_len);
-                result_len += env_len;
-            }
-        } else {
-            result[result_len++] = *pos++;
-        }
-    }
-    result[result_len] = '\0';
-    
-    // Adjust the quotes to reflect the actual content
-    // Ensure nested quotes are properly handled
-    char *final_result = malloc(result_len + 1);
-    if (!final_result) {
-        perror("malloc failed");
-        exit(EXIT_FAILURE);
-    }
-    
-    size_t final_len = 0;
-    in_single_quotes = 0;
-    in_double_quotes = 0;
-    pos = result;
-
-    while (*pos) {
-        if (*pos == '\'' && !in_double_quotes) {
-            in_single_quotes = !in_single_quotes;
-            final_result[final_len++] = *pos++;
-        } else if (*pos == '\"' && !in_single_quotes) {
-            in_double_quotes = !in_double_quotes;
-            final_result[final_len++] = *pos++;
-        } else {
-            final_result[final_len++] = *pos++;
-        }
-    }
-    final_result[final_len] = '\0';
-
-    free(result);
-    return final_result;
-}
 
 t_linkedlist_node	*ftlexer(char *s)
 {
@@ -194,13 +117,6 @@ t_linkedlist_node	*ftlexer(char *s)
 	free(current_token);
 	return (token_list);
 }
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <unistd.h>
 
 // Function to remove the outermost double and single quotes
 char *strip_outer_quotes(const char *str) {
@@ -237,23 +153,32 @@ char *strip_outer_quotes(const char *str) {
 }
 
 // Function to expand environment variables
-char *expand_env_vars(const char *str) {
-    char *result = malloc(1);
+
+char *replace_env_vars(const char *str) {
+    char *result = malloc(1); // Start with an empty string
     result[0] = '\0';
     size_t result_len = 0;
 
     const char *pos = str;
     int in_single_quotes = 0;
+    int in_double_quotes = 0;
 
     while (*pos) {
         if (*pos == '\'') {
-            in_single_quotes = !in_single_quotes;
+            in_single_quotes = !in_single_quotes;  // Toggle single quotes state
+            result_len += 1;
+            result = realloc(result, result_len + 1);
+            strncat(result, pos, 1);
+            pos++;
+        } else if (*pos == '\"') {
+            in_double_quotes = !in_double_quotes;  // Toggle double quotes state
             result_len += 1;
             result = realloc(result, result_len + 1);
             strncat(result, pos, 1);
             pos++;
         } else if (*pos == '$' && !in_single_quotes) {
-            pos++;
+            pos++; // Move past the '$'
+            // Find the end of the environment variable name
             const char *start = pos;
             while (*pos && (isalnum(*pos) || *pos == '_')) {
                 pos++;
@@ -263,20 +188,23 @@ char *expand_env_vars(const char *str) {
             strncpy(var_name, start, var_len);
             var_name[var_len] = '\0';
 
+            // Get the environment variable value
             char *env_value = getenv(var_name);
             if (env_value) {
+                // Reallocate result string with the new size
                 result_len += strlen(env_value);
                 result = realloc(result, result_len + 1);
                 strcat(result, env_value);
             }
         } else {
+            // Copy the current character to result
             result_len += 1;
             result = realloc(result, result_len + 1);
             strncat(result, pos, 1);
             pos++;
         }
     }
-
+    
     return result;
 }
 
@@ -286,7 +214,7 @@ char *simulate_echo(const char *input) {
     char *stripped_input = strip_outer_quotes(input);
     
     // Step 2: Expand environment variables
-    char *expanded = expand_env_vars(stripped_input);
+    char *expanded = replace_env_vars(stripped_input);
 
     // Step 3: Handle nested quotes
     size_t len = strlen(expanded);
@@ -318,18 +246,17 @@ char *simulate_echo(const char *input) {
 
 int main(int argc, char **argv)
 {
-	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME";
-	
-	
-	char   a[] = " hello man \"HOMEdad\"213 '$HOME'  \"$HOME\"   '\"$HOME\"'  \"'$HOME'\" ";
+
+	// char input[] = "ddd  | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'\" \"'$HOME'\" \"'$HOME'\"     $HOME                   $HOME        $HOME         $HOME  \"'$HOME'\"";
+	char   a[] = "$PWD $HOME $COLORTERM ";
 
 
-char* first_output=expand_env_vars(a);
-	printf("%s\n",first_output);
+char* output=replace_env_vars(a);
+	printf("%s\n",output);
+output= replace_env_double_single(output);
+	printf("%s\n",output);
 
 	// Call the lexer function
-char* output= process_and_expand(first_output);
-	printf("%s\n",output);
 	t_linkedlist_node *tokens = ftlexer(output);
 
 	(void)argv;

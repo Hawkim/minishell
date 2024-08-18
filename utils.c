@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:56:01 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/14 09:44:26 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/18 00:56:40 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,30 +53,3 @@ void print_tokens(t_linkedlist_node *list) {
 	}
 }
 
-// void	append(t_linkedlist_node **token_list, char *s)
-// {
-// 	t_linkedlist_node	*new_token;
-// 	t_linkedlist_node	*current;
-
-// 	if (s == NULL)
-// 		return ;
-// 	new_token = malloc(sizeof(t_linkedlist_node));
-// 	if (!new_token)
-// 		return ;
-// 	new_token->data = ft_strdup(s);
-// 	if (new_token->data == NULL)
-// 	{
-// 		free(new_token);
-// 		return ;
-// 	}
-// 	new_token->next = NULL;
-// 	if (*token_list == NULL)
-// 		*token_list = new_token;
-// 	else
-// 	{
-// 		current = *token_list;
-// 		while (current->next != NULL)
-// 			current = current->next;
-// 		current->next = new_token;
-// 	}
-// }

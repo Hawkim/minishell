@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/15 15:48:55 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:13:49 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
+# include <ctype.h> 
+# include <stdbool.h>
 
 # define INITIAL "INITIAL"
 # define IN_QUOTE "IN_QUOTE"
@@ -37,16 +39,16 @@ typedef struct TreeNode
 	struct TreeNode *parent;
 } TreeNode;
 
-t_linkedlist_node	*ftlexer(char *s, char **envp);
-// TreeNode* ftlexer(char *s, char **envp);
+t_linkedlist_node	*ftlexer(char *s); // Updated declaration to match definition
+
 void				append(t_linkedlist_node **token_list, char *s);
 void				print_tokens(t_linkedlist_node *list);
 void				search_tokens(t_linkedlist_node *token_list, char **env);
 char				*search_env(char *var, char **env);
 char				*search_string(char *s, char **env);
-
-t_linkedlist_node *ftlexer(char *s, char **envp);
-void print_tokens(t_linkedlist_node *tokens);
-
+				//env variables 
+char *replace_env_vars(const char *str) ;
+char* replace_env_double_single(const char *str) ;
+bool check_quotes(const char *str) ;
 
 #endif

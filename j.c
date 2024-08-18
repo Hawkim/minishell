@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:57:28 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/15 16:06:25 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:12:20 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_linkedlist_node	*ftlexer(char *s, char **envp)
 	if (!current_token)
 		exit(EXIT_FAILURE);
 	current_token[0] = '\0';
-	// search_string(s, envp);
+
 	t_ProcessParams params = {s, &i, &current_token, &token_list, &state};
 	while (s[i] != '\0')
 	{
@@ -116,17 +116,17 @@ t_linkedlist_node	*ftlexer(char *s, char **envp)
 		i++;
 	}
 	append_token_if_not_empty(&current_token, &token_list);
-	search_tokens(*(&token_list), envp);
+
 	free(current_token);
 	return (token_list);
 }
 
 int main(int argc, char **argv, char **envp)
 {
-	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\" ";
-	char   a[] = "   \"'$PATH'\" ";
+	char input[] = "echo $HOME '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\" ";
+	char   a[] = "   $PATH ";
 	// Call the lexer function
-	t_linkedlist_node *tokens = ftlexer(input,envp);
+	t_linkedlist_node *tokens = ftlexer(a,envp);
 
 	(void)argv;
 	(void)argc;
