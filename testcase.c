@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:57:28 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/18 17:16:39 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:56:33 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	append_token_if_not_empty(char **current_token,
 		reset_current_token(current_token);
 	}
 }
+
 
 static void	handle_space(char **current_token, t_linkedlist_node **token_list)
 {
@@ -151,13 +152,17 @@ char *strip_outer_quotes(const char *str) {
     // Return a copy of the original string if no outer quotes
     return strdup(str);
 }
-
-// Function to expand environment variables
+#define MAX_ENV_VAR_LENGTH 256  // Define a threshold for ignoring large env vars
 
 char *replace_env_vars(const char *str) {
-    char *result = malloc(1); // Start with an empty string
-    result[0] = '\0';
     size_t result_len = 0;
+    size_t buffer_size = 1024;
+    char *result = malloc(buffer_size);
+    if (!result) {
+        perror("malloc failed");
+        exit(EXIT_FAILURE);
+    }
+    result[0] = '\0';
 
     const char *pos = str;
     int in_single_quotes = 0;
@@ -165,48 +170,92 @@ char *replace_env_vars(const char *str) {
 
     while (*pos) {
         if (*pos == '\'') {
-            in_single_quotes = !in_single_quotes;  // Toggle single quotes state
-            result_len += 1;
-            result = realloc(result, result_len + 1);
-            strncat(result, pos, 1);
-            pos++;
+            in_single_quotes = !in_single_quotes;
+            if (result_len + 1 >= buffer_size) {
+                buffer_size *= 2;
+                result = realloc(result, buffer_size);
+                if (!result) {
+                    perror("realloc failed");
+                    exit(EXIT_FAILURE);
+                }
+            }
+            result[result_len++] = *pos++;
+            result[result_len] = '\0';
         } else if (*pos == '\"') {
-            in_double_quotes = !in_double_quotes;  // Toggle double quotes state
-            result_len += 1;
-            result = realloc(result, result_len + 1);
-            strncat(result, pos, 1);
-            pos++;
+            in_double_quotes = !in_double_quotes;
+            if (result_len + 1 >= buffer_size) {
+                buffer_size *= 2;
+                result = realloc(result, buffer_size);
+                if (!result) {
+                    perror("realloc failed");
+                    exit(EXIT_FAILURE);
+                }
+            }
+            result[result_len++] = *pos++;
+            result[result_len] = '\0';
         } else if (*pos == '$' && !in_single_quotes) {
-            pos++; // Move past the '$'
-            // Find the end of the environment variable name
+            pos++;
             const char *start = pos;
             while (*pos && (isalnum(*pos) || *pos == '_')) {
                 pos++;
             }
             size_t var_len = pos - start;
-            char var_name[var_len + 1];
+            char *var_name = malloc(var_len + 1);
+            if (!var_name) {
+                perror("malloc failed");
+                exit(EXIT_FAILURE);
+            }
             strncpy(var_name, start, var_len);
             var_name[var_len] = '\0';
 
-            // Get the environment variable value
             char *env_value = getenv(var_name);
             if (env_value) {
-                // Reallocate result string with the new size
-                result_len += strlen(env_value);
-                result = realloc(result, result_len + 1);
-                strcat(result, env_value);
+                size_t env_value_len = strlen(env_value);
+                if (env_value_len > MAX_ENV_VAR_LENGTH) {
+                    // Append the variable name if it's too large
+                    if (result_len + var_len + 1 >= buffer_size) {
+                        buffer_size = result_len + var_len + 1;
+                        result = realloc(result, buffer_size);
+                        if (!result) {
+                            perror("realloc failed");
+                            exit(EXIT_FAILURE);
+                        }
+                    }
+                    strcat(result, "$");
+                    strcat(result, var_name);
+                } else {
+                    if (result_len + env_value_len >= buffer_size) {
+                        while (result_len + env_value_len >= buffer_size) {
+                            buffer_size *= 2;
+                        }
+                        result = realloc(result, buffer_size);
+                        if (!result) {
+                            perror("realloc failed");
+                            exit(EXIT_FAILURE);
+                        }
+                    }
+                    strcat(result, env_value);
+                }
+                result_len += strlen(result + result_len);  // Update result_len based on the actual added length
             }
+            free(var_name);
         } else {
-            // Copy the current character to result
-            result_len += 1;
-            result = realloc(result, result_len + 1);
-            strncat(result, pos, 1);
-            pos++;
+            if (result_len + 1 >= buffer_size) {
+                buffer_size *= 2;
+                result = realloc(result, buffer_size);
+                if (!result) {
+                    perror("realloc failed");
+                    exit(EXIT_FAILURE);
+                }
+            }
+            result[result_len++] = *pos++;
+            result[result_len] = '\0';
         }
     }
-    
+
     return result;
 }
+
 
 // Function to simulate `echo` behavior with nested quotes
 char *simulate_echo(const char *input) {
@@ -247,17 +296,21 @@ char *simulate_echo(const char *input) {
 int main(int argc, char **argv)
 {
 
-	// char input[] = "ddd  | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'\" \"'$HOME'\" \"'$HOME'\"     $HOME                   $HOME        $HOME         $HOME  \"'$HOME'\"";
-	char   a[] = "$PWD $HOME $COLORTERM ";
+	char input[] = "ddd \"'$PATH'\" $PATH '$PATH' \"$PATH\" | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'\" \"'$HOME'\" \"'$HOME'\"     $HOME                   $HOME        $HOME         $HOME  \"'$HOME'\"";
+	// char   a[] = "   '$PATH' ";
 
 
-char* output=replace_env_vars(a);
+char* output=replace_env_vars(input);
 	printf("%s\n",output);
 output= replace_env_double_single(output);
 	printf("%s\n",output);
-
+        
 	// Call the lexer function
 	t_linkedlist_node *tokens = ftlexer(output);
+    printf("Tokens:\n");
+	print_tokens(tokens);
+
+     replace_large_env_vars(tokens);
 
 	(void)argv;
 	(void)argc;

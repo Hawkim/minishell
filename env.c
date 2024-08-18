@@ -3,8 +3,10 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define MAX_ENV_VAR_LENGTH 256
+
+// Check if there's a pattern like '"'
 bool is_double_then_single(const char *str) {
-    // Check if there's a pattern like '"'
     while (*str) {
         if (*str == '"' && *(str + 1) == '\'') {
             return true;
@@ -47,12 +49,13 @@ char* replace_env_double_single(const char *str) {
                     exit(EXIT_FAILURE);
                 }
 
-                char *env_value = getenv(env_name);
+                // Check if it's a large environment variable
+                char *env_value_ptr = getenv(env_name);
                 free(env_name);
 
-                if (env_value) {
-                    // Allocate enough space for the environment variable value
-                    size_t env_length = strlen(env_value);
+                if (env_value_ptr && strlen(env_value_ptr) < MAX_ENV_VAR_LENGTH) {
+                    // Allocate buffer for environment variable value
+                    size_t env_length = strlen(env_value_ptr);
                     if (res_ptr + env_length >= result + length * 2 + 1) {
                         // Reallocate memory if necessary
                         size_t new_length = length * 2 + 1 + env_length;
@@ -66,10 +69,10 @@ char* replace_env_double_single(const char *str) {
                     }
 
                     // Append the environment variable's value
-                    strcpy(res_ptr, env_value);
+                    strcpy(res_ptr, env_value_ptr);
                     res_ptr += env_length;
                 } else {
-                    // If the environment variable is not found, keep it as is
+                    // If the environment variable is not found or is large, keep it as is
                     strncpy(res_ptr, start, str - start);
                     res_ptr += str - start;
                 }
@@ -98,18 +101,7 @@ char* replace_env_double_single(const char *str) {
     return result;
 }
 
+// Uncomment to test the function
 // int main() {
-//     char input[] = "   \"'$PATH'\" ddd  | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'\" \"'$HOME'\" \"'$HOME'\"     $HOME                   $HOME        $HOME         $HOME  \"'$HOME'\"";
-//   char input2[] = "  \"'$PATH\"'  | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'\" \"'$HOME'\" \"'$HOME'\"     $HOME                   $HOME        $HOME         $HOME  \"'$HOME'\"";
-
-//     if (is_double_then_single(input)) {
-//         char *result = replace_env_double_single(input);
-//         printf("Result: %s\n", result);
-//         free(result);
-//     } else {
-//         printf("No matching quotes found.\n");
-//     }
-
-//     return 0;
-// }
-
+//     char input[] = " $PATH $HOME \"'$HOME'\" $HOME \"'$HOME'\" $HOME \"'$HOME'\"";
+//     char input2[] = "  \"'$PATH\"'  | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'

@@ -98,16 +98,16 @@ char* replace_env_variables(const char *str) {
     return result;
 }
 
-int main() {
-    char input[] = "   \"'$PATH'\" ddd  | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'\" \"'$HOME'\" \"'$HOME'\"     $HOME                   $HOME        $HOME         $HOME  \"'$HOME'\"";
+// int main() {
+//     char input[] = "   \"'$PATH'\" ddd  | grep pitput.txt dasdsads echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\"  $HOME \"'$HOME'\"  2313213 $DADDA \"'$HOME'\"  \"'$HOME'\" \"'$HOME'\" \"'$HOME'\"     $HOME                   $HOME        $HOME         $HOME  \"'$HOME'\"";
      
-    if (is_double_then_single(input)) {
-        char *result = replace_env_variables(input);
-        printf("Result: %s\n", result);
-        free(result);
-    } else {
-        printf("No matching quotes found.\n");
-    }
+//     if (is_double_then_single(input)) {
+//         char *result = replace_env_variables(input);
+//         printf("Result: %s\n", result);
+//         free(result);
+//     } else {
+//         printf("No matching quotes found.\n");
+//     }
 
-    return 0;
-}
+//     return 0;
+// }

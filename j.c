@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:57:28 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/18 17:12:20 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:42:10 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,28 +121,28 @@ t_linkedlist_node	*ftlexer(char *s, char **envp)
 	return (token_list);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	char input[] = "echo $HOME '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\" ";
-	char   a[] = "   $PATH ";
-	// Call the lexer function
-	t_linkedlist_node *tokens = ftlexer(a,envp);
+// int main(int argc, char **argv, char **envp)
+// {
+// 	char input[] = "echo $HOME '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\" ";
+// 	char   a[] = "   $PATH ";
+// 	// Call the lexer function
+// 	t_linkedlist_node *tokens = ftlexer(a,envp);
 
-	(void)argv;
-	(void)argc;
-	// Print the tokens
-	printf("Tokens:\n");
-	print_tokens(tokens);
+// 	(void)argv;
+// 	(void)argc;
+// 	// Print the tokens
+// 	printf("Tokens:\n");
+// 	print_tokens(tokens);
 
-	// Free the linked list
-	t_linkedlist_node *current = tokens;
-	t_linkedlist_node *next;
-	while (current != NULL) {
-		next = current->next;
-		free(current->data);
-		free(current);
-		current = next;
-	}
+// 	// Free the linked list
+// 	t_linkedlist_node *current = tokens;
+// 	t_linkedlist_node *next;
+// 	while (current != NULL) {
+// 		next = current->next;
+// 		free(current->data);
+// 		free(current);
+// 		current = next;
+// 	}
 
-	return 0;
-}
+// 	return 0;
+// }
