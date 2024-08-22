@@ -1,0 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/05 14:56:01 by jabanna           #+#    #+#             */
+/*   Updated: 2024/08/22 13:03:01 by nal-haki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+t_linkedlist_node	*create_node0(char *data)
+{
+	t_linkedlist_node	*new_node;
+
+	new_node = malloc(sizeof(t_linkedlist_node));
+	if (!new_node)
+	{
+		perror("malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	new_node->data = strdup(data);
+	new_node->next = NULL;
+	return (new_node);
+}
+
+void	append(t_linkedlist_node **list, char *data)
+{
+	t_linkedlist_node	*new_node;
+	t_linkedlist_node	*current;
+
+	new_node = create_node0(data);
+	if (*list == NULL)
+		*list = new_node;
+	else
+	{
+		current = *list;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new_node;
+	}
+}
+
+// Function to print all tokens in the linked list
+void print_tokens(t_linkedlist_node *list) {
+	t_linkedlist_node *current = list;
+	while (current != NULL) {
+		printf("Token: %s\n", current->data);
+		current = current->next;
+	}
+}
+

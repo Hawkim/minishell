@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:38:47 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/21 09:57:14 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/22 10:09:19 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,6 @@ void execute_command(const char *command, int input_fd, int output_fd, char **en
 	}
 }
 
-// Recursive function to handle commands and pipes
 void child_process(TreeNode *tree, int input_fd, char **envp)
 {
 	int pipe_fd[2];
@@ -223,28 +222,34 @@ void child_process(TreeNode *tree, int input_fd, char **envp)
 			exit(EXIT_FAILURE);
 		}
 		// Process the left child
-		if (tree->left != NULL)
-		{
-			pid_t left_pid = fork();
-			if (left_pid == -1)
-			{
-				perror("fork");
-				exit(EXIT_FAILURE);
-			}
-			if (left_pid == 0)
-			{
-				// In the left child process
-				close(pipe_fd[0]); // Close the read end of the pipe
-				if (input_fd != STDIN_FILENO)
-				{
-					dup2(input_fd, STDIN_FILENO); // Redirect input
-					close(input_fd);
-				}
-				dup2(pipe_fd[1], STDOUT_FILENO); // Redirect output to the pipe
-				close(pipe_fd[1]); // Close the write end of the pipe
-				child_process(tree->left, STDIN_FILENO, envp);
-				exit(EXIT_SUCCESS);
-			}
+	 if (tree->left != NULL)
+        {
+            pid_t left_pid = fork();
+            if (left_pid == 0)
+            {
+                // In the left child process
+                close(pipe_fd[0]);
+                if (input_file != NULL)
+                {
+                    int file_fd = open(input_file, O_RDONLY);
+                    if (file_fd == -1)
+                    {
+                        perror("open");
+                        exit(EXIT_FAILURE);
+                    }
+                    dup2(file_fd, STDIN_FILENO);
+                    close(file_fd);
+                }
+                else if (input_fd != STDIN_FILENO)
+                {
+                    dup2(input_fd, STDIN_FILENO);
+                    close(input_fd);
+                }
+                dup2(pipe_fd[1], STDOUT_FILENO);
+                close(pipe_fd[1]);
+                child_process(tree->left, STDIN_FILENO, envp, NULL);
+                exit(EXIT_SUCCESS);
+            }
 			else
 			{
 				// In the parent process
@@ -267,7 +272,7 @@ void child_process(TreeNode *tree, int input_fd, char **envp)
 				close(pipe_fd[1]); // Close the write end of the pipe
 				dup2(pipe_fd[0], STDIN_FILENO); // Redirect input from the pipe
 				close(pipe_fd[0]); // Close the read end of the pipe
-				child_process(tree->right, STDIN_FILENO, envp);
+				child_process(tree->right, pipe_fd[0], envp, NULL);
 				exit(EXIT_SUCCESS);
 			}
 			else
@@ -370,23 +375,17 @@ void remove_lt_and_next(t_linkedlist_node **token_list)
 	fprintf(stderr, "Token `<` not found in the list.\n");
 }
 
-char	*get_filein(t_linkedlist_node *token_list)
+char *get_filein(t_linkedlist_node *token_list)
 {
-	char	*filein;
-
-	filein = NULL;
-	if (token_list == NULL)
-		return (NULL);
-	while (token_list != NULL)
-	{
-		if (ft_strncmp(token_list->data, "<", 1) == 0)
-			filein = token_list->next->data;
-		token_list = token_list->next;
-	}
-	if (filein)
-		return (filein);
-	else
-		return (NULL);
+    if (token_list == NULL)
+        return (NULL);
+    while (token_list != NULL)
+    {
+        if (ft_strncmp(token_list->data, "<", 1) == 0 && token_list->next != NULL)
+            return (token_list->next->data);
+        token_list = token_list->next;
+    }
+    return (NULL);
 }
 
 char	*get_fileout(t_linkedlist_node *token_list)
@@ -440,7 +439,7 @@ int main(int argc, char **argv, char **envp)
 	// TreeNode	*root;
 	// TreeNode *tree = search_in_tokens(tokens, root);
 	TreeNode *tree = create_binary_tree(tokens);
-	child_process(tree, STDIN_FILENO, envp);
+	child_process(tree, STDIN_FILENO, envp, input_file);
 	// printf("root = %s\n", tree->value);
 	// printf("left child = %s\n", tree->left->value);
 	// printf("right child = %s\n", tree->right->value);
