@@ -6,13 +6,13 @@
 /*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:56:01 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/19 08:40:22 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/23 09:15:01 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_linkedlist_node	*create_node0(char *data)
+t_linkedlist_node	*create_node_l(char *data)
 {
 	t_linkedlist_node	*new_node;
 
@@ -22,7 +22,7 @@ t_linkedlist_node	*create_node0(char *data)
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
 	}
-	new_node->data = strdup(data);
+	new_node->data = ft_strdup(data);
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -32,7 +32,7 @@ void	append(t_linkedlist_node **list, char *data)
 	t_linkedlist_node	*new_node;
 	t_linkedlist_node	*current;
 
-	new_node = create_node0(data);
+	new_node = create_node_l(data);
 	if (*list == NULL)
 		*list = new_node;
 	else

@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   replace_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/22 13:16:09 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/08/22 13:23:30 by nal-haki         ###   ########.fr       */
+/*   Created: 2024/08/26 08:36:24 by jabanna           #+#    #+#             */
+/*   Updated: 2024/08/26 08:36:47 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include "../inc/minishell.h"
 
 #define MAX_ENV_VAR_LENGTH 256
 

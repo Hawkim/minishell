@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   j.c                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:57:28 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/22 09:50:50 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/26 08:38:43 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void	process_state(t_ProcessParams *params)
 	}
 }
 
-t_linkedlist_node	*ftlexer(char *s, char **envp)
+t_linkedlist_node	*ftlexer(char *s)
 {
 	t_linkedlist_node	*token_list;
 	char				*state;
@@ -121,28 +121,28 @@ t_linkedlist_node	*ftlexer(char *s, char **envp)
 	return (token_list);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep $ddd \"hello\"\"a\" ";
-	char   a[] = "$PATH";
-	// Call the lexer function
-	t_linkedlist_node *tokens = ftlexer(a, envp);
+// int main(int argc, char **argv, char **envp)
+// {
+// 	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > 'ls' output.txt | grep $ddd \"hello\"\"a\" ";
+// 	char   a[] = "$PATH";
+// 	// Call the lexer function
+// 	t_linkedlist_node *tokens = ftlexer(input, envp);
 
-	(void)argv;
-	(void)argc;
-	// Print the tokens
-	printf("Tokens:\n");
-	print_tokens(tokens);
+// 	(void)argv;
+// 	(void)argc;
+// 	// Print the tokens
+// 	printf("Tokens:\n");
+// 	print_tokens(tokens);
 
-	// Free the linked list
-	t_linkedlist_node *current = tokens;
-	t_linkedlist_node *next;
-	while (current != NULL) {
-		next = current->next;
-		free(current->data);
-		free(current);
-		current = next;
-	}
+// 	// Free the linked list
+// 	t_linkedlist_node *current = tokens;
+// 	t_linkedlist_node *next;
+// 	while (current != NULL) {
+// 		next = current->next;
+// 		free(current->data);
+// 		free(current);
+// 		current = next;
+// 	}
 
-	return 0;
-}
+// 	return 0;
+// }

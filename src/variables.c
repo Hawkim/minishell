@@ -6,7 +6,7 @@
 /*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 09:51:05 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/19 14:11:11 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/23 08:12:55 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,26 +101,26 @@ char	*search_env(char *var, char **env)
 	return (NULL);
 }
 
-// void	search_tokens(t_linkedlist_node *token_list, char **env)
-// {
-// 	t_linkedlist_node	*current;
-// 	char				*def;
+void	search_tokens(t_linkedlist_node *token_list, char **env)
+{
+	t_linkedlist_node	*current;
+	char				*def;
 
-// 	current = token_list;
-// 	while (current != NULL)
-// 	{
-// 		if (current->data[0] == '$' && (current->state != IN_SQUOTE))
-// 		{
-// 			def = search_env(current->data, env);
-// 			if (def != NULL)
-// 			{
-// 				current->data = strdup(def);
-// 				free(def);
-// 			}
-// 		}
-// 		current = current->next;
-// 	}
-// }
+	current = token_list;
+	while (current != NULL)
+	{
+		if (current->data[0] == '$' && (current->state != IN_SQUOTE))
+		{
+			def = search_env(current->data, env);
+			if (def != NULL)
+			{
+				current->data = strdup(def);
+				free(def);
+			}
+		}
+		current = current->next;
+	}
+}
 
 // int main(int argc, char **argv, char **envp)
 // {
