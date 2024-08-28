@@ -2,7 +2,7 @@ NAME = minishell
 
 HEADER = ./inc/
 
-AUTHOR = jabanna
+AUTHOR = nal-haki
 
 LIBFT = libft/libft.a
 
@@ -10,7 +10,7 @@ CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra -I $(HEADER) #-fsanitize=address
 
-SRCS = j tree_utils utils variables path_cmd copy io execution binary_tree dsenv replace_var
+SRCS = j tree_utils utils variables path_cmd copy io execution binary_tree dsenv replace_var main
 
 SRC = $(addprefix src/, $(addsuffix .c, $(SRCS)))
 

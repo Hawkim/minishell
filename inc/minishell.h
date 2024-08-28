@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/26 08:47:05 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/28 17:35:35 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ void				free_tree(TreeNode *node);
 char*				replace_env_double_single(const char * str);
 bool				is_double_then_single(const char *str);
 char				*replace_env_vars(const char *str);
+void remove_lt_and_next(t_linkedlist_node **token_list);
+void print_tree_reverse_in_order(TreeNode *root, int level);
 
 #endif
