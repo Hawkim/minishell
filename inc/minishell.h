@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/28 17:35:35 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/29 19:55:25 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <readline/readline.h>
+#include <readline/history.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>

@@ -10,6 +10,8 @@ CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra -I $(HEADER) #-fsanitize=address
 
+LDFLAGS = -lreadline -lncurses  # Add the readline and ncurses libraries here
+
 SRCS = j tree_utils utils variables path_cmd copy io execution binary_tree dsenv replace_var main
 
 SRC = $(addprefix src/, $(addsuffix .c, $(SRCS)))
@@ -29,27 +31,25 @@ all: $(NAME)
 
 objs/%.o:	src/%.c
 			@mkdir -p $(dir $@)
-			@${CC} ${FLAGS} -c $< -o $@
+			@${CC} ${CFLAGS} -c $< -o $@  # Changed FLAGS to CFLAGS to match your CFLAGS variable
 
 $(NAME):	$(OBJS) $(LIBFT) $(HEADER)
-			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT)
+			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(LDFLAGS)  # Added LDFLAGS here
 			@printf "%-53b%b" "$(COM_COLOR)Project Compiled:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
 $(LIBFT):
 			@make -C ./libft
 			@printf "%-53b%b" "$(COM_COLOR)LIBFT Compiled:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
-
 clean:
 			rm -rf objs/
 			@make clean -C ./libft
 			@printf "%-53b%b" "$(COM_COLOR)OBJECT FILES DELETED:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
 
-
 fclean:		clean
-				rm $(NAME)
-				rm ./libft/libft.a
-				@printf "%-53b%b" "$(COM_COLOR)ALL CLEAN:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
+			rm $(NAME)
+			rm ./libft/libft.a
+			@printf "%-53b%b" "$(COM_COLOR)ALL CLEAN:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
 
 re:			fclean all
 
