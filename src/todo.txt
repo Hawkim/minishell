@@ -1,10 +1,16 @@
-#iritate through the tree, taking the root and an input file (file directly after the < symbol) as  parameters and 
-then go to the left child and execute the command  and update the output variable, and then go back to the root, then 
-go to the right child then update the input to be the output of the pipe, and then repeat the same process using recursion.
-
-#there are errors and memory leaks in the ftlexer()
-#Use the libft functions(library)
 
 #in functions get_filein() and get_fileout() make the files and operators(< >) null
 Then edit the execution functions (child_process and exec_command) so that they take the
 first input file the value returned from get_filein(), and so for the output.
+
+#THE difference between the append and heredoc is that in the append the get_filein()
+returns NULL, this is how to differiniate between the append and heredoc
+
+#Handle the $ symbol in the following cases : echo $ and  << $ >> output.txt
+
+
+*append
+*shelllvl
+*builtins
+* $? $$
+*signals (History)

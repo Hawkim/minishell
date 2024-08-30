@@ -2,7 +2,7 @@ NAME = minishell
 
 HEADER = ./inc/
 
-AUTHOR = nal-haki
+AUTHOR = jabanna
 
 LIBFT = libft/libft.a
 
@@ -10,9 +10,7 @@ CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra -I $(HEADER) #-fsanitize=address
 
-LDFLAGS = -lreadline -lncurses  # Add the readline and ncurses libraries here
-
-SRCS = j tree_utils utils variables path_cmd copy io execution binary_tree dsenv replace_var main
+SRCS = j tree_utils utils variables path_cmd copy io execution binary_tree heredoc heredoc1 test
 
 SRC = $(addprefix src/, $(addsuffix .c, $(SRCS)))
 
@@ -31,25 +29,27 @@ all: $(NAME)
 
 objs/%.o:	src/%.c
 			@mkdir -p $(dir $@)
-			@${CC} ${CFLAGS} -c $< -o $@  # Changed FLAGS to CFLAGS to match your CFLAGS variable
+			@${CC} ${FLAGS} -c $< -o $@
 
 $(NAME):	$(OBJS) $(LIBFT) $(HEADER)
-			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(LDFLAGS)  # Added LDFLAGS here
+			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline
 			@printf "%-53b%b" "$(COM_COLOR)Project Compiled:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
 $(LIBFT):
 			@make -C ./libft
 			@printf "%-53b%b" "$(COM_COLOR)LIBFT Compiled:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
+
 clean:
 			rm -rf objs/
 			@make clean -C ./libft
 			@printf "%-53b%b" "$(COM_COLOR)OBJECT FILES DELETED:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
 
+
 fclean:		clean
-			rm $(NAME)
-			rm ./libft/libft.a
-			@printf "%-53b%b" "$(COM_COLOR)ALL CLEAN:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
+				rm $(NAME)
+				rm ./libft/libft.a
+				@printf "%-53b%b" "$(COM_COLOR)ALL CLEAN:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
 
 re:			fclean all
 

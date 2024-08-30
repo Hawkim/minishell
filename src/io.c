@@ -6,7 +6,7 @@
 /*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:10:37 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/23 14:20:09 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/27 11:39:54 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ char	*get_filein(t_linkedlist_node *token_list)
 		return (NULL);
 	while (token_list != NULL)
 	{
+		if (ft_strncmp(token_list->data, "<", 1) == 0 && token_list->next == NULL)
+		{
+			printf("bash: syntax error near unexpected token `newline'\n");
+			// return (NULL);
+			exit(EXIT_FAILURE);
+		}
 		if (ft_strncmp(token_list->data, "<", 1) == 0)
 			filein = token_list->next->data;
 		token_list = token_list->next;
@@ -36,10 +42,17 @@ char	*get_fileout(t_linkedlist_node *token_list)
 	char	*fileout;
 
 	fileout = NULL;
+	// printf("LK");
 	if (token_list == NULL)
 		return (NULL);
 	while (token_list != NULL)
 	{
+		if (ft_strncmp(token_list->data, ">", 1) == 0 && token_list->next == NULL)
+		{
+			printf("bash: syntax error near unexpected token `newline'\n");
+			// return (NULL);
+			exit(EXIT_FAILURE);
+		}
 		if (ft_strncmp(token_list->data, ">", 1) == 0)
 			fileout = token_list->next->data;
 		token_list = token_list->next;
@@ -67,7 +80,7 @@ int open_input_file(t_linkedlist_node *token_list)
 	if (fd == -1)
 	{
 		perror("open");
-		// exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
@@ -76,7 +89,7 @@ int open_output_file(t_linkedlist_node *token_list)
 {
 	char	*filename;
 	int		fd;
-	
+	// printf("JJJJ");
 	filename = get_fileout(token_list);
 	if (filename == NULL) {
 		return (-1);

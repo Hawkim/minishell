@@ -6,7 +6,7 @@
 /*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:07:15 by jabanna           #+#    #+#             */
-/*   Updated: 2024/07/15 16:09:40 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:42:04 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 char	*process_line(char **stash);
 char	*read_from_fd(int fd);
 char	*get_next_line_helper(char **stash, int fd);
+char	*get_next_line(int fd);
 
 #endif

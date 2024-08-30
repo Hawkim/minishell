@@ -6,7 +6,7 @@
 /*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:51:05 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/23 12:52:35 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/30 11:42:28 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 TreeNode	*create_node(const char *value)
 {
-	TreeNode *new_node;
+	TreeNode	*new_node;
 	
 	new_node = (TreeNode *)malloc(sizeof(TreeNode));
 	if (new_node == NULL)
@@ -35,7 +35,7 @@ TreeNode	*create_node(const char *value)
 	return (new_node);
 }
 
-void free_tree(TreeNode *node)
+void	free_tree(TreeNode *node)
 {
 	if (node != NULL)
 	{
@@ -46,10 +46,10 @@ void free_tree(TreeNode *node)
 	}
 }
 
-static char *concat_until_pipe(t_linkedlist_node **current)
+static char	*concat_until_pipe(t_linkedlist_node **current)
 {
-	char *command;
-	char *temp;
+	char	*command;
+	char	*temp;
 
 	command = ft_strdup("");
 	while (*current != NULL && ft_strncmp((*current)->data, "|", 1) != 0)
@@ -68,7 +68,7 @@ static char *concat_until_pipe(t_linkedlist_node **current)
 	return (command);
 }
 
-TreeNode *create_binary_tree(t_linkedlist_node *current)
+TreeNode	*create_binary_tree(t_linkedlist_node *current)
 {
 	TreeNode	*root;
 	TreeNode	*firstnode;
@@ -80,7 +80,7 @@ TreeNode *create_binary_tree(t_linkedlist_node *current)
 	if (command != NULL && ft_strlen(command) > 0)
 	{
 		firstnode = create_node(command);
-		free(command);  // Free command after creating the node
+		free(command);
 	}
 	if (current != NULL && ft_strncmp(current->data, "|", 1) == 0)
 	{

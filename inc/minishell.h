@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/29 19:55:25 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/30 08:38:56 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <readline/readline.h>
-#include <readline/history.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -24,10 +22,15 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/stat.h>
 # include "../libft/inc/libft.h"
+# include "../libft/inc/get_next_line.h"
 # define INITIAL "INITIAL"
 # define IN_QUOTE "IN_QUOTE"
 # define IN_SQUOTE "IN_SQUOTE"
+// # define BUFFER_SIZE 1024
 
 typedef struct ll_node
 {
@@ -71,7 +74,11 @@ void				free_tree(TreeNode *node);
 char*				replace_env_double_single(const char * str);
 bool				is_double_then_single(const char *str);
 char				*replace_env_vars(const char *str);
-void remove_lt_and_next(t_linkedlist_node **token_list);
-void print_tree_reverse_in_order(TreeNode *root, int level);
+char				*get_heredoc_file(t_linkedlist_node *token_list);
+char				*get_heredoc_delimiter(t_linkedlist_node *token_list);
+void				heredoc_input(t_linkedlist_node *token_list);
+void				open_heredoc_one(t_linkedlist_node *tokens);
+bool				is_cat(t_linkedlist_node *token_list);
+char				*process_string(char *str, char **env);
 
 #endif

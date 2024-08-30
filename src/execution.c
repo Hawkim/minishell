@@ -6,7 +6,7 @@
 /*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:19:30 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/23 13:38:38 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/30 12:00:01 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void redirect_file_descriptors(int input_fd, int output_fd)
 {
 	if (input_fd != STDIN_FILENO)
 	{
-		dup2(input_fd, STDIN_FILENO); // Redirect input
+		dup2(input_fd, STDIN_FILENO);
 		close(input_fd);
 	}
 	if (output_fd != STDOUT_FILENO)
 	{
-		dup2(output_fd, STDOUT_FILENO); // Redirect output
+		dup2(output_fd, STDOUT_FILENO);
 		close(output_fd);
 	}
 }
@@ -81,25 +81,24 @@ void child_process(TreeNode *tree, int input_fd, int output_fd, char **envp)
             }
             if (left_pid == 0)
             {
-                // In the left child process
-                close(pipe_fd[0]); // Close the read end of the pipe
+                // in the left child process
+                close(pipe_fd[0]); // close the read end of the pipe
                 if (input_fd != STDIN_FILENO)
                 {
-                    dup2(input_fd, STDIN_FILENO); // Redirect input from file or previous pipe
+                    dup2(input_fd, STDIN_FILENO); // redirect input from file or previous pipe
                     close(input_fd);
                 }
-                dup2(pipe_fd[1], STDOUT_FILENO); // Redirect output to the pipe
-                close(pipe_fd[1]); // Close the write end of the pipe
+                dup2(pipe_fd[1], STDOUT_FILENO); // redirect output to the pipe
+                close(pipe_fd[1]); // close the write end of the pipe
                 child_process(tree->left, STDIN_FILENO, STDOUT_FILENO, envp);
                 exit(EXIT_SUCCESS);
             }
             else
             {
-                // In the parent process
-                close(pipe_fd[1]); // Close the write end of the pipe
-                // Recursively process the right child
-                child_process(tree->right, pipe_fd[0], output_fd, envp);
-                waitpid(left_pid, NULL, 0); // Wait for left child to finish
+                // in the parent process
+                close(pipe_fd[1]); // close the write end of the pipe
+                child_process(tree->right, pipe_fd[0], output_fd, envp); // the input is the read end of the pipe
+                waitpid(left_pid, NULL, 0); // wait for left child to finish
             }
         }
     }
