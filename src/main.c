@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/30 15:07:16 by nal-haki          #+#    #+#             */
+/*   Updated: 2024/08/30 15:07:23 by nal-haki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+void handle_signals(void)
+{
+    signal(SIGINT, sig_int);
+    signal(SIGQUIT, SIG_IGN);
+}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -13,16 +25,19 @@ int main(int argc, char **argv, char **envp)
     (void)envp;
     char *input;
     char *output;
-    char *out;
     t_linkedlist_node *tokens;
     t_linkedlist_node *copied;
     TreeNode *tree;
     TreeNode *tree1;
 
+    sig_init();       // Initialize signal handling structures
+    handle_signals(); // Set up signal handlers
+
     while (1) {
         input = readline("minishell > ");
         if (input == NULL) {
-            break; // Exit on EOF (Ctrl+D)
+            // Exit on EOF (Ctrl-D)
+            break;
         }
 
         if (ft_strlen(input) == 0) {
@@ -30,42 +45,40 @@ int main(int argc, char **argv, char **envp)
             continue; // Skip processing if the input is empty
         }
 
+        add_history(input); // Add input to history
+
         if (strcmp(input, "exit") == 0) {
             free(input);
             break; // Exit on "exit" command
         }
 
-        output = replace_env_vars(input);
+        output = process_string(input, envp);
         if (!output) {
-            perror("Error in replace_env_vars");
+            perror("Error in process_string");
             free(input);
             continue;
         }
 
-        out = replace_env_double_single(output);
-        if (!out) {
-            perror("Error in replace_env_double_single");
-            free(output); // Free the previously allocated memory
+        tokens = ftlexer(output);
+        if (differentiate_redirection(tokens))
+        {
+            free(output);
             free(input);
-            continue;
+            continue;  // Skip to the next command
         }
-
-        tokens = ftlexer(out);
 
         copied = copy_linked_list(tokens);
         remove_lt_and_next(&copied);
 
         tree = create_binary_tree(tokens);
-
         tree1 = create_binary_tree(copied);
 
-        child_process(tree1, open_input_file(tokens), open_output_file(tokens), envp);
+        child_process(tree, open_input_file(tokens), open_output_file(tokens), envp);
 
         // Free allocated memory
         free_tree(tree);
         free_tree(tree1);
         free(output);
-        free(out);
         free(input);
     }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/30 08:38:56 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/30 14:16:00 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+#include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
@@ -30,7 +31,6 @@
 # define INITIAL "INITIAL"
 # define IN_QUOTE "IN_QUOTE"
 # define IN_SQUOTE "IN_SQUOTE"
-// # define BUFFER_SIZE 1024
 
 typedef struct ll_node
 {
@@ -46,6 +46,14 @@ typedef struct TreeNode
 	struct TreeNode	*right; // Right child (for pipes)
 	struct TreeNode *parent;
 } TreeNode;
+
+typedef struct	s_sig
+{
+	int				sigint;
+	int				sigquit;     
+	int				exit_status;
+	pid_t			pid;
+}				t_sig;
 
 t_linkedlist_node	*ftlexer(char *s);
 // TreeNode* ftlexer(char *s, char **envp);
@@ -80,5 +88,15 @@ void				heredoc_input(t_linkedlist_node *token_list);
 void				open_heredoc_one(t_linkedlist_node *tokens);
 bool				is_cat(t_linkedlist_node *token_list);
 char				*process_string(char *str, char **env);
+void 				remove_lt_and_next(t_linkedlist_node **token_list);
+int differentiate_redirection(t_linkedlist_node *token_list);
+
+
+//signals 
+void handle_signals(void);
+void	sig_int(int code);
+void	sig_quit(int code);
+void	sig_init(void);
+
 
 #endif

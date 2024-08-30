@@ -266,17 +266,17 @@ char *process_string(char *str, char **env) {
             // Process environment variable
             int k = i ; // Start after the '$'
             temp_str = extract_substring(string + k, '$');
-            printf("EXTRACTED STRING : %s\n", temp_str);
+            // printf("EXTRACTED STRING : %s\n", temp_str);
             if (!temp_str) {
                 perror("extract_substring failed");
                 free(string);
                 free(result);
                 exit(EXIT_FAILURE);
             }
-            printf("Temp_str : %s\n", temp_str);
+            // printf("Temp_str : %s\n", temp_str);
             // printf("Temp_str length : %d\n", strlen(temp_str));
             env_value = search_env(temp_str, env);
-            printf("ENV VALUE : %s\n", env_value);
+            // printf("ENV VALUE : %s\n", env_value);
             // free(temp_str);
 
             if (env_value) {
@@ -284,7 +284,7 @@ char *process_string(char *str, char **env) {
                 while (*env_value) {
                     result[result_len++] = *env_value++;
                 }
-                printf("22 Temp_str : %s\n", temp_str);
+                // printf("22 Temp_str : %s\n", temp_str);
                 // printf("22 Temp_str length: %d\n", strlen(temp_str));
                 i = i + strlen(temp_str) - 1;
             } else {
@@ -309,38 +309,10 @@ char *process_string(char *str, char **env) {
     result[result_len] = '\0'; // Null-terminate the result string
 
     // Print the result for demonstration
-    printf("Processed string: %s\n", result);
+    // printf("Processed string: %s\n", result);
 
     // Cleanup
     free(string);
     return (result);
     free(result);
 }
-
-// int main() {
-// 	// Sample input string for testing
-// 	const char *input_str = "This is a \"'\"sample\"'\" string with \"double quotes\" and 'single quotes'.";
-
-// 	// Process the input string
-// 	process_string(input_str);
-
-// 	return 0;
-// }
-
-// int main(int argc, char **argv, char **env) {
-//     // Example input string
-//     const char *input_str = "echo \"'\"$HOMEa\"'\"";
-//     char start_char = 'H'; // Character to start extraction
-//     (void)argc;
-//     (void)argv;
-//     // Extract the substring
-//     char *result = extract_substring(input_str, start_char);
-//     if (result) {
-//         printf("Extracted substring: '%s'\n", result);
-//         free(result); // Free the allocated memory
-//     } else {
-//         printf("Character not found or no substring extracted.\n");
-//     }
-//     printf("output :\n%s\n", process_string(input_str, env));
-//     return 0;
-// }

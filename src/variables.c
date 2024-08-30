@@ -3,65 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 09:51:05 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/29 13:28:38 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/08/30 12:58:26 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-// #include "libft.h"
-
-// typedef struct node
-// {
-// 	struct node	*next;
-// 	char		*data;
-// }	t_env;
-
-// t_env	*free_env(t_env *head, t_env *current)
-// {
-// 	while (head)
-// 	{
-// 		current = head;
-// 		head = head ->next;
-// 		free(current->data);
-// 		free(current);
-// 	}
-// 	return (NULL);
-// }
-
-// t_env	*create_env(char **env)
-// {
-// 	int		i;
-// 	t_env	*head;
-// 	t_env	*current;
-// 	t_env	*prev;
-
-// 	i = 0;
-// 	head = NULL;
-// 	current = NULL;
-// 	prev = NULL;
-// 	if (env == NULL)
-// 		return (NULL);
-// 	while (env[i] != NULL)
-// 	{
-// 		current = (t_env *)malloc(sizeof(t_env));
-// 		if (current == NULL)
-// 			return (free_env(head, current));
-// 		current->data = ft_strdup(env[i]);
-// 		if (current->data == NULL)
-// 			return (free_env(head, current));
-// 		current->next = NULL;
-// 		if (prev == NULL)
-// 			head = current;
-// 		else
-// 			prev->next = current;
-// 		prev = current;
-// 		i++;
-// 	}
-// 	return (head);
-// }
 
 char	*fill_word(char *def, char **env, int i, int j)
 {
