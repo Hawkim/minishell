@@ -10,7 +10,7 @@ CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra -I $(HEADER) #-fsanitize=address
 
-SRCS = j tree_utils utils variables path_cmd copy io execution binary_tree heredoc heredoc1 test signals main
+SRCS = j tree_utils utils buitins variables path_cmd copy io execution binary_tree heredoc heredoc1 test signals main
 
 SRC = $(addprefix src/, $(addsuffix .c, $(SRCS)))
 

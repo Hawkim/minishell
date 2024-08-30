@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/30 14:16:00 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/30 18:19:08 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ void handle_signals(void);
 void	sig_int(int code);
 void	sig_quit(int code);
 void	sig_init(void);
+//builtins
+int handle_builtins(t_linkedlist_node *tokens);
+
+
 
 
 #endif

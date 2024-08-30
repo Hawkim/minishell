@@ -6,94 +6,11 @@
 /*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:38:47 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/30 12:42:34 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/08/30 18:32:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-// TreeNode	*search_in_tokens(t_linkedlist_node *current)
-// {
-// 	// t_linkedlist_node	*current;
-// 	char				*left_child_val;
-// 	TreeNode			*root;
-// 	char				*command;
-// 	TreeNode			*firstnode;
-// 	TreeNode			*secondnode;
-
-// 	// current = token_list;
-// 	root = NULL;
-// 	command = strdup(" ");
-// 	while (current != NULL && strcmp(current->data, "|") != 0)
-// 	{
-// 		command = ft_strjoin(command, current->data);
-// 		if (strcmp(current->next->data, "|" ) != 0 && current->next != NULL)
-// 			command = ft_strjoin(command, " ");
-// 		current = current->next;
-// 	}
-// 	if (command != NULL)
-// 		firstnode = create_node(command);
-// 	command = NULL;
-// 	// if (strcmp(current->data, "|") == 0)
-// 	if (current != NULL && current->data != NULL)
-// 	{
-// 		root = create_node(current->data);
-// 		firstnode->parent = root;
-// 		root->left = firstnode;
-// 		root->right = search_in_tokens(current->next);
-// 		// return (search_in_tokens(current));
-// 	}
-	
-// 	// root->left = create_lchild(root, command);
-// 	// root->right = create_rchild(root, "RIGHTT");
-// 	// root->right = search_in_tokens(token_list);
-// 	return (root);
-// }
-
-// TreeNode	*create_binary_tree(t_linkedlist_node *current)
-// {
-// 	TreeNode	*root ;
-// 	TreeNode	*firstnode ;
-// 	char		*command ;
-// 	char		*temp ;
-
-// 	root= NULL;
-// 	firstnode = NULL;
-// 	command = ft_strdup("");
-// 	temp = NULL;
-// 	// Concatenate tokens before the first '|'
-// 	while (current != NULL && ft_strncmp(current->data, "|", 1) != 0)
-// 	{
-// 		temp = ft_strjoin(command, current->data);
-// 		free(command);
-// 		command = temp;
-// 		if (current->next != NULL && ft_strncmp(current->next->data, "|", 1) != 0)
-// 		{
-// 			temp = ft_strjoin(command, " ");
-// 			free(command);
-// 			command = temp;
-// 		}
-// 		current = current->next;
-// 	}
-// 	if (command != NULL && ft_strlen(command) > 0)
-// 	{
-// 		firstnode = create_node(command);
-// 		free(command);  // Free the command after creating the node
-// 	}
-// 	// If current is not NULL and points to a '|', create a root node
-// 	if (current != NULL && current->data != NULL && ft_strncmp(current->data, "|", 1) == 0)
-// 	{
-// 		root = create_node(current->data);
-// 		// Create the left child with tokens before the first '|'
-// 		root->left = firstnode;
-// 		if (firstnode != NULL)
-// 			firstnode->parent = root;
-// 		root->right = create_binary_tree(current->next);
-// 	}
-// 	else if (firstnode != NULL)
-// 		root = firstnode;// If no more pipes, this is a leaf node
-// 	return (root);
-// }
 
 void remove_lt_and_next(t_linkedlist_node **token_list)
 {

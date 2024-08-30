@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 15:07:16 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/08/30 15:07:23 by nal-haki         ###   ########.fr       */
+/*   Created: 2024/08/30 18:56:23 by nal-haki          #+#    #+#             */
+/*   Updated: 2024/08/30 19:07:23 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,11 @@ void handle_signals(void)
     signal(SIGQUIT, SIG_IGN);
 }
 
-int main(int argc, char **argv, char **envp)
-{
+int main(int argc, char **argv, char **envp) {
     (void)argc;
     (void)argv;
-    (void)envp;
     char *input;
-    char *output;
+    char *processed_input;
     t_linkedlist_node *tokens;
     t_linkedlist_node *copied;
     TreeNode *tree;
@@ -47,24 +45,34 @@ int main(int argc, char **argv, char **envp)
 
         add_history(input); // Add input to history
 
-        if (strcmp(input, "exit") == 0) {
-            free(input);
-            break; // Exit on "exit" command
-        }
-
-        output = process_string(input, envp);
-        if (!output) {
+        processed_input = process_string(input, envp); // Expand environment variables
+        if (!processed_input) {
             perror("Error in process_string");
             free(input);
             continue;
         }
 
-        tokens = ftlexer(output);
-        if (differentiate_redirection(tokens))
-        {
-            free(output);
+        tokens = ftlexer(processed_input); // Tokenize the processed input
+
+        if (tokens == NULL) {
+            fprintf(stderr, "Error: Failed to tokenize input.\n");
+            free(processed_input);
             free(input);
-            continue;  // Skip to the next command
+            continue;
+        }
+
+        // Handle built-in commands first
+        if (handle_builtins(tokens)) {
+            free(processed_input);
+            free(input);
+            continue; // Skip further processing if a built-in command was handled
+        }
+
+        // Handle redirections if no built-in command was matched
+        if (differentiate_redirection(tokens)) {
+            free(processed_input);
+            free(input);
+            continue; // Skip to the next command if redirection was handled
         }
 
         copied = copy_linked_list(tokens);
@@ -78,7 +86,7 @@ int main(int argc, char **argv, char **envp)
         // Free allocated memory
         free_tree(tree);
         free_tree(tree1);
-        free(output);
+        free(processed_input);
         free(input);
     }
 
