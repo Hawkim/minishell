@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buitins.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:13:17 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/08/30 19:10:14 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/09/01 00:55:18 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int handle_builtins(t_linkedlist_node *tokens)
 
     if (strcmp(tokens->data, "cd") == 0) {
         if (tokens->next && tokens->next->data) {
-            if (ft_cd(tokens->next->data) != 0) {
+            if (ft_cd(tokens->next->data) != 0 && !tokens->next->data) {
                 fprintf(stderr, "cd: %s: No such file or directory\n", tokens->next->data);
             }
         }
