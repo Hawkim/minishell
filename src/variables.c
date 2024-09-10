@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 09:51:05 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/30 12:58:26 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:13:02 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*search_env(char *var, char **env)
 	char	*def;
 	int		var_len;
 	int		j;
-	// int		k;
 
 	if (var == NULL)
 		return (NULL);
@@ -58,7 +57,7 @@ void	search_tokens(t_linkedlist_node *token_list, char **env)
 	current = token_list;
 	while (current != NULL)
 	{
-		if (current->data[0] == '$' )//&& (current->state != IN_SQUOTE))
+		if (current->data[0] == '$' )
 		{
 			def = search_env(current->data, env);
 			if (def != NULL)
@@ -70,44 +69,3 @@ void	search_tokens(t_linkedlist_node *token_list, char **env)
 		current = current->next;
 	}
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-//     // if (argc != 2) {
-//     //     fprintf(stderr, "Usage: %s <VARIABLE_NAME>\n", argv[0]);
-//     //     return EXIT_FAILURE;
-//     // }
-// 	(void)argc;
-// 	(void)argv;
-//     char *var = "$HOME";
-// 	char input[] = "echo '\"'\"'\"Hello, | world!\"'\"'\"' > output.txt | grep \" \" $PATH hello\"'\"a ";
-//     char *def;
-// 	t_linkedlist_node *tokens = ftlexer(input, envp);
-// 		printf("Tokens:\n");
-// 	print_tokens(tokens);
-
-// 	// char *d =  search_tokens(tokens, envp);
-// 	// if (d)
-// 	// {
-// 	// 	printf("%s\n", d);
-// 	// 	free(d);
-// 	// }
-// 	def = search_env(var, envp);
-//     if (def)
-// 	{
-//         printf("Definition of %s: %s\n", var, def);
-//         free(def); // Free the allocated memory for the definition
-//     }
-// 	else
-//         printf("Variable %s not found.\n", var);
-// 	// Free the linked list
-// 	t_linkedlist_node *current = tokens;
-// 	t_linkedlist_node *next;
-// 	while (current != NULL) {
-// 		next = current->next;
-// 		free(current->data);
-// 		free(current);
-// 		current = next;
-// 	}
-//     return EXIT_SUCCESS;
-// }

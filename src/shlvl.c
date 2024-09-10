@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 23:49:03 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/08/31 23:58:34 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:15:49 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void	increment_shell_level(char **envp)
 	{
 		if (ft_strncmp(envp[i], "SHLVL=", 6) == 0)
 		{
-			shlvl_str = envp[i] + 6;  // Point to the value after "SHLVL="
+			shlvl_str = envp[i] + 6;
 			shell_level = get_lvl(shlvl_str) + 1;
 			new_shlvl_str = ft_itoa(shell_level);
-			envp[i] = ft_strjoin("SHLVL=", new_shlvl_str);  // Update envp
+			envp[i] = ft_strjoin("SHLVL=", new_shlvl_str);
 			free(new_shlvl_str);
-			break;
+			break ;
 		}
 		i++;
 	}

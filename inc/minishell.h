@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 13:39:40 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/31 23:58:57 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:37:47 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-#include <signal.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
@@ -45,12 +45,12 @@ typedef struct TreeNode
 	struct TreeNode	*left; // Left child (for commands)
 	struct TreeNode	*right; // Right child (for pipes)
 	struct TreeNode *parent;
-} TreeNode;
+}	TreeNode;
 
-typedef struct	s_sig
+typedef struct s_sig
 {
 	int				sigint;
-	int				sigquit;     
+	int				sigquit;
 	int				exit_status;
 	pid_t			pid;
 }				t_sig;
@@ -101,8 +101,5 @@ void	sig_init(void);
 int handle_builtins(t_linkedlist_node *tokens);
 //shlvl
 void	increment_shell_level(char **envp);
-
-
-
 
 #endif

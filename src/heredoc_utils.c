@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 09:54:04 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/26 14:19:52 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/09/10 11:08:37 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*get_heredoc_file(t_linkedlist_node *token_list)
 {
 	char	*filename;
-	
+
 	filename = NULL;
 	if (token_list == NULL)
 		return (NULL);

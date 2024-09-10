@@ -1,7 +1,16 @@
-// #include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t.c                                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 11:08:54 by nal-haki          #+#    #+#             */
+/*   Updated: 2024/09/10 11:09:40 by nal-haki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 typedef struct node
 {
@@ -53,7 +62,7 @@ t_env	*create_env(char **env)
 	return (head);
 }
 
-void print_env_list(t_env *head) {
+void	print_env_list(t_env *head) {
     t_env *current = head;
     while (current != NULL) {
         printf("env : %s\n", current->data);

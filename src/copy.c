@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 09:10:23 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/30 11:43:55 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/09/10 11:13:27 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ t_linkedlist_node	*copy_linked_list(t_linkedlist_node *original)
 	t_linkedlist_node	*current_original;
 	t_linkedlist_node	*current_new;
 	t_linkedlist_node	*new_node;
-	
+
 	if (original == NULL)
 		return (NULL);
 	new_head = create_node_l(original->data);
 	if (!new_head)
-		return (NULL); 
+		return (NULL);
 	current_original = original->next;
 	current_new = new_head;
 	while (current_original != NULL)

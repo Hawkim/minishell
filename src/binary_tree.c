@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:51:05 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/30 11:42:28 by jabanna          ###   ########.fr       */
+/*   Updated: 2024/09/10 11:20:54 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 TreeNode	*create_node(const char *value)
 {
 	TreeNode	*new_node;
-	
+
 	new_node = (TreeNode *)malloc(sizeof(TreeNode));
 	if (new_node == NULL)
 	{
@@ -57,7 +57,8 @@ static char	*concat_until_pipe(t_linkedlist_node **current)
 		temp = ft_strjoin(command, (*current)->data);
 		free(command);
 		command = temp;
-		if ((*current)->next != NULL && ft_strncmp((*current)->next->data, "|", 1) != 0)
+		if ((*current)->next != NULL
+			&& ft_strncmp((*current)->next->data, "|", 1) != 0)
 		{
 			temp = ft_strjoin(command, " ");
 			free(command);
@@ -73,7 +74,7 @@ TreeNode	*create_binary_tree(t_linkedlist_node *current)
 	TreeNode	*root;
 	TreeNode	*firstnode;
 	char		*command;
-	
+
 	root = NULL;
 	firstnode = NULL;
 	command = concat_until_pipe(&current);

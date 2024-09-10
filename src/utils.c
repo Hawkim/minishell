@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:56:01 by jabanna           #+#    #+#             */
-/*   Updated: 2024/08/30 12:58:11 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:12:09 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,13 @@ void	append(t_linkedlist_node **list, char *data)
 }
 
 // Function to print all tokens in the linked list
-void print_tokens(t_linkedlist_node *list) {
-	t_linkedlist_node *current = list;
-	while (current != NULL) {
+void	print_tokens(t_linkedlist_node *list)
+{
+	t_linkedlist_node	*current;
+
+	current = list;
+	while (current != NULL)
+	{
 		printf("Token: %s\n", current->data);
 		current = current->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:19:30 by jabanna           #+#    #+#             */
-/*   Updated: 2024/09/01 00:07:59 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:16:45 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void redirect_file_descriptors(int input_fd, int output_fd)
 	}
 }
 
-void execute_command(const char *command, int input_fd, int output_fd, char **envp)
+void    execute_command(const char *command, int input_fd, int output_fd, char **envp)
 {
 	char	**cmd;
 	char	*path;
