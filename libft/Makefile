@@ -1,88 +1,61 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/08/26 22:39:56 by nal-haki          #+#    #+#              #
+#    Updated: 2024/09/26 22:40:21 by nal-haki         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-NAME			= libft.a
+NAME		= libft.a
 
-INC				= inc/
-SRC_DIR			= src/
-OBJ_DIR			= obj/
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror
+AR			= ar -rcs
+RM			= rm -rf
 
+SRCS_PATH = ./src/
+OBJS_PATH = ./libft_objects/
 
-CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -I
-RM				= rm -f
-AR				= ar rcs
+INCLUDES	= ./include/
+SOURCES		= ft_atoi.c ft_bzero.c ft_calloc.c\
+			ft_isalnum.c ft_isalpha.c ft_isdigit.c\
+			ft_if_eof.c ft_itoa.c ft_memcpy.c ft_split.c\
+			ft_strchr.c ft_strdup.c ft_strjoin.c\
+			ft_strlcpy.c ft_strlen.c ft_strncmp.c\
+			ft_strndup.c ft_strnjoin.c ft_strrchr.c\
+			ft_substr.c ft_atol.c ft_long.c ft_space.c\
+			ft_putstr_fd.c ft_putchar_fd.c ft_cap_num.c
+			
+			
 
-FTIS_DIR		=	$(SRC_DIR)ft_is/ft_isalnum.c \
-					$(SRC_DIR)ft_is/ft_isalpha.c \
-					$(SRC_DIR)ft_is/ft_isascii.c \
-					$(SRC_DIR)ft_is/ft_isdigit.c \
-					$(SRC_DIR)ft_is/ft_isprint.c 
+VPATH = $(SRCS_PATH)
 
-FTMEM_DIR		=	$(SRC_DIR)ft_mem/ft_bzero.c \
-					$(SRC_DIR)ft_mem/ft_calloc.c \
-					$(SRC_DIR)ft_mem/ft_memchr.c \
-					$(SRC_DIR)ft_mem/ft_memcmp.c \
-					$(SRC_DIR)ft_mem/ft_memmove.c \
-					$(SRC_DIR)ft_mem/ft_memset.c 
+OBJECTS		= $(addprefix $(OBJS_PATH), $(notdir $(SOURCES:.c=.o)))
 
-FTPUT_DIR		=	$(SRC_DIR)ft_put/ft_putchar_fd.c \
-					$(SRC_DIR)ft_put/ft_putendl_fd.c \
-					$(SRC_DIR)ft_put/ft_putnbr_fd.c \
-					$(SRC_DIR)ft_put/ft_putstr_fd.c 
+$(OBJS_PATH)%.o: %.c
+				mkdir -p $(OBJS_PATH)
+				$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
 
-FTTO_DIR		=	$(SRC_DIR)ft_to/ft_atoi.c \
-					$(SRC_DIR)ft_to/ft_itoa.c \
-					$(SRC_DIR)ft_to/ft_tolower.c \
-					$(SRC_DIR)ft_to/ft_toupper.c
+all: 		$(NAME)
 
-FTSTR_DIR		=	$(SRC_DIR)ft_str/ft_split.c \
-					$(SRC_DIR)ft_str/ft_strchr.c \
-					$(SRC_DIR)ft_str/ft_strdup.c \
-					$(SRC_DIR)ft_str/ft_striteri.c \
-					$(SRC_DIR)ft_str/ft_strjoin.c \
-					$(SRC_DIR)ft_str/ft_strlcat.c \
-					$(SRC_DIR)ft_str/ft_strlcpy.c \
-					$(SRC_DIR)ft_str/ft_strlen.c \
-					$(SRC_DIR)ft_str/ft_strmapi.c \
-					$(SRC_DIR)ft_str/ft_strncmp.c \
-					$(SRC_DIR)ft_str/ft_strncpy.c \
-					$(SRC_DIR)ft_str/ft_strnstr.c \
-					$(SRC_DIR)ft_str/ft_strrchr.c \
-					$(SRC_DIR)ft_str/ft_strtrim.c \
-					$(SRC_DIR)ft_str/ft_substr.c 
+$(NAME):	$(OBJECTS) $(INCLUDES)
+			$(AR)	$(NAME) $(OBJECTS)
 
-FTPRINTF_DIR	=	$(SRC_DIR)ft_printf/ft_printf.c \
-					$(SRC_DIR)ft_printf/ft_handle_char.c \
-					$(SRC_DIR)ft_printf/ft_handle_string.c \
-					$(SRC_DIR)ft_printf/ft_handle_int.c \
-					$(SRC_DIR)ft_printf/ft_handle_unsigned.c \
-					$(SRC_DIR)ft_printf/ft_handle_pointer.c	\
-					$(SRC_DIR)ft_printf/ft_handle_hex.c \
-					$(SRC_DIR)ft_printf/ft_handle_percent.c \
-					$(SRC_DIR)ft_printf/ft_printf_utils.c
-
-GNL_DIR			=	$(SRC_DIR)get_next_line/get_next_line.c 
-
-SRC 			= $(FTIS_DIR) $(FTMEM_DIR) $(FTPUT_DIR) $(FTTO_DIR) $(FTTO_DIR) $(FTSTR_DIR)  $(FTPRINTF_DIR) $(GNL_DIR)
-
-
-OBJ 			= $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
-
-all: 			$(NAME)
-
-$(NAME): 		$(OBJ)
-				@$(AR) $(NAME) $(OBJ)
-
-$(OBJ_DIR)%.o:	$(SRC_DIR)%.c
-				@mkdir -p $(@D)
-				@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+.c.o:
+			$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $(<:.c=.o)
 
 clean:
-				@$(RM) -r $(OBJ_DIR)
-				@$(RM) .cache_exists
+			$(RM) $(OBJECTS)
+			$(RM) $(OBJS_PATH)
 
-fclean: 		clean
-				@$(RM) $(NAME)
+fclean:		clean
+			$(RM) $(NAME)
+			$(RM) $(OBJS_PATH)
 
-re: 			fclean all
+re:			fclean all
 
-.PHONY: 		all clean fclean re
+.PHONY:		all clean fclean re

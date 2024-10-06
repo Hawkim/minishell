@@ -5,90 +5,79 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 18:56:23 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/01 00:09:16 by nal-haki         ###   ########.fr       */
+/*   Created: 2024/08/29 15:10:44 by nal-haki          #+#    #+#             */
+/*   Updated: 2024/10/05 01:32:33 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../minishell.h"
 
-void handle_signals(void)
+t_minishell	g_minishell;
+
+void	read_a_line(void)
 {
-    signal(SIGINT, sig_int);
-    signal(SIGQUIT, SIG_IGN);
+	g_minishell.parser = init_parser();
+	g_minishell.parser->input = readline("minishell > ");
+	if (if_eof(g_minishell.parser->input))
+	{
+		printf("exit\n");
+		free_minishell();
+		exit(0);
+	}
+	add_history(g_minishell.parser->input);
 }
 
-int main(int argc, char **argv, char **envp) {
-    (void)argc;
-    (void)argv;
-    char *input;
-    char *processed_input;
-    t_linkedlist_node *tokens;
-    t_linkedlist_node *copied;
-    TreeNode *tree;
-    TreeNode *tree1;
+// open terminal
+// opens a command prompt to the user in an infinite loop
+// change the response to received signals
+// clear the struct and ready for next input
+// open a prompt and wait for the input
+// send to parsing & execute
 
-    sig_init();       // Initialize signal handling structures
-    handle_signals(); // Set up signal handlers
+void	shell_loop(void)
+{
+	while (1)
+	{
+		change_signals();
+		free_parser();
+		free_command();
+		read_a_line();
+		if (!start_tokenization())
+			continue ;
+		start_execution();
+	}
+}
 
-    while (1) {
-        input = readline("minishell > ");
-        if (input == NULL) {
-            // Exit on EOF (Ctrl-D)
-            break;
-        }
+// first initialize the global structure with the envp 
+// parameter's list (converted into a hashtable)
+// point all structures to NULL
 
-        if (ft_strlen(input) == 0) {
-            free(input);
-            continue; // Skip processing if the input is empty
-        }
+static int	init_error(int flag)
+{
+	if (flag == 12)
+		ft_putstr_fd("Error! No environment variables detected.", 2);
+	else if (flag == 1)
+		ft_putstr_fd("Invalid STDIN.", 2);
+	else if (flag == 2)
+	{
+		ft_putstr_fd("Invalid arguments bro.", 2);
+		flag--;
+	}
+	return (flag);
+}
 
-        add_history(input); // Add input to history
-
-        processed_input = process_string(input, envp); // Expand environment variables
-        if (!processed_input) {
-            perror("Error in process_string");
-            free(input);
-            continue;
-        }
-
-        tokens = ftlexer(processed_input); // Tokenize the processed input
-
-        if (tokens == NULL) {
-            fprintf(stderr, "Error: Failed to tokenize input.\n");
-            free(processed_input);
-            free(input);
-            continue;
-        }
-
-        // Handle built-in commands first
-        if (handle_builtins(tokens)) {
-            free(processed_input);
-            free(input);
-            continue; // Skip further processing if a built-in command was handled
-        }
-
-        // Handle redirections if no built-in command was matched
-        if (differentiate_redirection(tokens)) {
-            free(processed_input);
-            free(input);
-            continue; // Skip to the next command if redirection was handled
-        }
-
-        copied = copy_linked_list(tokens);
-        remove_lt_and_next(&copied);
-
-        tree = create_binary_tree(tokens);
-        tree1 = create_binary_tree(copied);
-
-        child_process(tree, open_input_file(tokens), open_output_file(tokens), envp);
-
-        // Free allocated memory
-        free_tree(tree);
-        free_tree(tree1);
-        free(processed_input);
-        free(input);
-    }
-
-    return 0;
+int	main(int argc, char **argv, char **envp)
+{
+	if (!envp[0])
+		exit(init_error(12));
+	if (!isatty(0))
+		exit(init_error(1));
+	if (argc > 1 && argv)
+	{
+		free_minishell();
+		exit(init_error(2));
+	}
+	init_shell(envp);
+	shell_loop();
+	return (0);
 }

@@ -1,58 +1,64 @@
-NAME = minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/08/05 21:21:54 by nal-haki          #+#    #+#              #
+#    Updated: 2024/09/22 16:24:06 by nal-haki         ###   ########.fr       #
+#                                                                              #
+# **************************************************************************** #
 
-HEADER = ./inc/
+NAME			= minishell
+LIBFT			= libft.a
+CC 				= gcc
+CFLAGS 			= -Wall -Wextra -Werror -g
+CINC 			= -I $(INCLUDE_PATH)
+CREAD			= -lreadline
+LIBFT_PATH 		= ./libft/
+SRCS_PATH 		= ./src/
+OBJS_PATH		= ./minishell_objects/
+INCLUDE_PATH 	= ./include/
 
-AUTHOR = jabanna
+SRCS			= main.c init_tool.c builtin.c builtin_utils.c ft_cd.c ft_echo.c ft_env.c\
+				  ft_exit.c ft_export.c ft_export_two.c ft_pwd.c ft_unset.c cmd_utils.c cmd.c\
+				  exec_child.c execution.c hash.c key_search.c add_back_hash.c get_key.c\
+				  get_value.c insert_hash.c expansion.c expansion_two.c expansion_tools.c\
+				  heredoc.c token_utils.c token.c setup_path.c check_path.c create_path_list.c\
+				  get_cmd_path.c pid.c signal.c signal_two.c define.c error.c free.c\
+				  free_two.c free_three.c pipe.c path.c if_builtin.c if_command_valid.c\
+				  if_double_operator.c if_expandable.c if_fork_needed.c if_grammar_valid.c\
+				  if_identifier_valid.c if_in_quotes.c if_pipe_valid.c if_quotes_valid.c\
+				  if_redir_valid.c if_redir.c if_valid_token.c if_no_meta.c
 
-LIBFT = libft/libft.a
+VPATH 			= $(SRCS_PATH):$(SRCS_PATH)builtins:$(SRCS_PATH)init:$(SRCS_PATH)cmd:\
+				  $(SRCS_PATH)execution:$(SRCS_PATH)hash:$(SRCS_PATH)parsing:\
+				  $(SRCS_PATH)signal:$(SRCS_PATH)path:$(SRCS_PATH)signals:$(SRCS_PATH)utils:\
+				  $(SRCS_PATH)what_if
 
-CC = gcc
+OBJS			= $(addprefix $(OBJS_PATH), $(notdir $(SRCS:.c=.o)))
 
-CFLAGS = -Werror -Wall -Wextra -I $(HEADER) #-fsanitize=address
-
-SRCS = j tree_utils utils buitins variables path_cmd copy io execution binary_tree heredoc heredoc1 test signals shlvl main
-
-SRC = $(addprefix src/, $(addsuffix .c, $(SRCS)))
-
-SHELL := /bin/bash
-
-COM_COLOR   = \033[0;34m
-OBJ_COLOR   = \033[0;36m
-OK_COLOR    = \033[0;32m
-ERROR_COLOR = \033[0;31m
-WARN_COLOR  = \033[0;33m
-NO_COLOR    = \033[m
-
-OBJS = $(addprefix objs/, $(addsuffix .o, $(SRCS)))
+$(OBJS_PATH)%.o: %.c
+	@mkdir -p $(OBJS_PATH)
+	$(CC) $(CFLAGS) $(CINC) -c $< -o $@
 
 all: $(NAME)
 
-objs/%.o:	src/%.c
-			@mkdir -p $(dir $@)
-			@${CC} ${FLAGS} -c $< -o $@
-
-$(NAME):	$(OBJS) $(LIBFT) $(HEADER)
-			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline
-			@printf "%-53b%b" "$(COM_COLOR)Project Compiled:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
-
-$(LIBFT):
-			@make -C ./libft
-			@printf "%-53b%b" "$(COM_COLOR)LIBFT Compiled:" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
-
+$(NAME): $(OBJS)
+	$(MAKE) -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS) $(CINC) -o $(NAME) $(OBJS) -L $(LIBFT_PATH) -lft $(CREAD)
+	@echo "$(NAME) is up to date."
 
 clean:
-			rm -rf objs/
-			@make clean -C ./libft
-			@printf "%-53b%b" "$(COM_COLOR)OBJECT FILES DELETED:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
+	$(MAKE) -C $(LIBFT_PATH) clean
+	rm -rf $(OBJS_PATH)
 
+fclean: clean
+	$(MAKE) -C $(LIBFT_PATH) fclean
+	rm -rf $(NAME)
 
-fclean:		clean
-				rm $(NAME)
-				rm ./libft/libft.a
-				@printf "%-53b%b" "$(COM_COLOR)ALL CLEAN:" "$(ERROR_COLOR)[✓]$(NO_COLOR)\n"
+re: fclean all
+	@echo "$(NAME) recompiled."
 
-re:			fclean all
-
-.PHONY: 	all clean fclean re
-
-.SILENT: 	clean fclean re all
+.PHONY: all clean fclean re
