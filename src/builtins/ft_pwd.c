@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:51:37 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/01 18:28:42 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ int	if_tok_invalid(char *tok)
 	return (0);
 }
 
-int	ft_pwd(char **exec)
+int	ft_pwd(char **exe)
 {
 	char	*pwd;
 
-	if (exec[1] && if_tok_invalid(exec[1]))
+	if (exe[1] && if_tok_invalid(exe[1]))
 	{
-		print_error("pwd:`", exec[1], "\': invalid option.");
+		print_error("pwd:`", exe[1], "\': invalid option.");
 		return (2);
 	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
 		free(pwd);
-		pwd = key_search("PWD");
+		pwd = keyy_search("PWD");
 		printf("%s\n", pwd);
 	}
 	else

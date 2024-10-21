@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:41:31 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:09 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:20:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 void	interrupt_handler(int signal)
 {
 	(void)signal;
-	free_minishell();
+	free_shell();
 	exit(130);
 }
 
@@ -28,7 +28,7 @@ void	interrupt_handler(int signal)
 void	quit_handler(int signal)
 {
 	(void)signal;
-	free_minishell();
+	free_shell();
 	exit(131);
 }
 
@@ -53,6 +53,6 @@ void	heredoc_handler(int signal)
 {
 	(void)signal;
 	printf("\n");
-	free_minishell();
+	free_shell();
 	exit(130);
 }

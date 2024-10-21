@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:10:44 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:02 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:20:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_parser	*init_parser(void)
 	parser = malloc(sizeof(t_parser));
 	if (!parser)
 	{
-		free_minishell();
+		free_shell();
 		exit(12);
 	}
 	parser->input = NULL;

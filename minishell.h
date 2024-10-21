@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:14:48 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/05 01:38:52 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 typedef struct s_token
 {
 	char			*token_value;
-	int				token_type;
+	int				type_of_token;
 	struct s_token	*next;
 }	t_token;
 
@@ -49,8 +49,8 @@ typedef struct s_command
 	t_token				*redirections;
 	int					endpoint;
 	int					is_piped;
-	char				**exec;
-	char				*exec_path;
+	char				**exe;
+	char				*exe_path;
 	char				**envp;
 	int					fd_in;
 	int					fd_out;
@@ -63,7 +63,7 @@ typedef struct s_command
 
 typedef struct s_hashpair
 {
-	char				*hash_key;
+	char				*hash_keyy;
 	char				*hash_value;
 	int					attribute;
 	struct s_hashpair	*next;
@@ -76,7 +76,7 @@ typedef struct s_hashtable
 	size_t		count;
 }	t_hashtable;
 
-// t_command *command -> the executor
+// t_command *command -> the exeutor
 typedef struct s_minishell
 {
 	t_hashtable	*envp;
@@ -89,7 +89,7 @@ typedef struct s_minishell
 extern t_minishell	g_minishell;
 // one global variable (including all variables in different strcut)
 
-enum	e_token_type{
+enum	e_type_of_token{
 	WORD,
 	REDIR_OUT,
 	APPEND,
@@ -110,24 +110,24 @@ enum e_fd_type {
 };
 
 //hashes no-matter-where misaligned var//
-unsigned long int	hash_function(char *key, unsigned int size);
+unsigned long int	hash_function(char *keyy, unsigned int size);
 
 // builtins //
-void				exec_builtin_parent(t_command *cmd);
-void				exec_builtin_child(t_command *cmd);
-int					ft_cd(char **exec);
-int					ft_echo(char **exec);
+void				exe_builtin_parent(t_command *cmd);
+void				exe_builtin_child(t_command *cmd);
+int					ft_cd(char **exe);
+int					ft_echo(char **exe);
 int					ft_env(t_command *cmd);
-int					ft_exit(char **exec);
-int					ft_export(char **exec);
-int					ft_pwd(char **exec);
-int					ft_unset(char **exec);
-void				check_env(char *key, char *value);
-void				sub_hash(char *key, char *value);
-void				export_hash(char *key, int new_attribute);
+int					ft_exit(char **exe);
+int					ft_export(char **exe);
+int					ft_pwd(char **exe);
+int					ft_unset(char **exe);
+void				check_env(char *keyy, char *value);
+void				sub_hash(char *keyy, char *value);
+void				export_hash(char *keyy, int new_attribute);
 void				print_declarex(t_hashpair *node);
-void				check_input(char **exec);
-int					get_location(char *location_key);
+void				check_input(char **exe);
+int					get_location(char *location_keyy);
 
 // cmd
 void				command_table(void);
@@ -135,21 +135,21 @@ void				add_cmd_back(t_command *cmd);
 void				set_cmd_endp(t_command **cmd, t_token **list, int *prev);
 t_command			*cmd_create(int id);
 
-// execution//
-void				create_exec_envp(t_command *cmd);
+// exeution//
+void				create_exe_envp(t_command *cmd);
 void				close_fd(t_command *cmd, int fd_type);
-void				exec_commands(t_command **cmd);
-void				start_execution(void);
+void				exe_commands(t_command **cmd);
+void				start_exeution(void);
 void				close_all_fds(void);
 //void    dup2_close_all_fds (t_command *command);
-void				exec_child(t_command *cmd);
+void				exe_child(t_command *cmd);
 
 //hash//
-void				bk_hash(t_hashpair **list, char *key, char *value, int atr);
-void				insert_hash(char *key, char *value, int attribute);
+void				bk_hash(t_hashpair **list, char *keyy, char *value, int atr);
+void				insert_hash(char *keyy, char *value, int attribute);
 void				send_to_hashtable(char **variables);
 t_hashtable			*init_hastable(char *env_str);
-char				*key_search(char *key);
+char				*keyy_search(char *keyy);
 
 //  expansion//
 char				*replacement_expansion(t_token *token, int *index);
@@ -196,30 +196,30 @@ void				parent_handler(int signal);
 void				change_signals(void);
 void				get_heredoc_child_signal(void);
 void				get_heredoc_parent_signal(void);
-void				exec_commands_parent_signals(void);
-void				exec_commands_child_signals(void);
+void				exe_commands_parent_signals(void);
+void				exe_commands_child_signals(void);
 void				heredoc_handler(int signal);
 
 //define//
 void				get_fileno(int redir_type, char *filename, t_command *cmd);
 int					check_fds(t_command *cmd);
 int					define_redir(void);
-int					define_token_type(char *token);
+int					define_type_of_token(char *token);
 
 //error//
 int					heredoc_error(int *fd);
 void				cmd_error(t_command *cmd, int nb);
 void				return_error(char *filename, int error_number);
 void				print_error(char *src, char *elem, char *str);
-int					exit_num_error(char **exec);
+int					exit_num_error(char **exe);
 int					args_error(void);
 
 //free//
-void				free_minishell(void);
+void				free_shell(void);
 void				free_path(char **path);
 void				free_envp(t_command *cmd);
 void				free_expansion(char **str, char *next);
-void				free_exec_list(char **exec);
+void				free_exe_list(char **exe);
 void				free_command(void);
 void				free_tokens(t_token **tokens);
 void				free_parser(void);
@@ -232,7 +232,7 @@ void				open_pipes(void);
 void				write_to_pipe(char *limiter, int *fd);
 
 //what if//
-int					if_redir(int prev, int token_type);//
+int					if_redir(int prev, int type_of_token);//
 int					if_builtin(t_command *cmd);//
 int					if_fork_needed(t_command *cmd);//
 int					if_expandable(char curr_char);//
@@ -243,19 +243,19 @@ int					if_command_valid(void);//
 int					if_grammar_valid(void);//
 int					if_in_quotes(const char *input, size_t index);//
 int					if_double_operator(char curr, char prev);//
-int					if_valid_token(const char *input, size_t i, size_t prev);//
-int					if_identifier_valid(char *key);//
-int					if_no_meta(char *key);
-int					if_num_first(char *key);
-int					if_option(char *key);
+int					if_token_valid(const char *input, size_t i, size_t prev);//
+int					if_identifier_valid(char *keyy);//
+int					if_no_meta(char *keyy);
+int					if_num_first(char *keyy);
+int					if_option(char *keyy);
 //WYSIWYG//
 char				*get_value(char *variable);
-char				*get_key(char *variable);
+char				*get_keyy(char *variable);
 char				*get_pwd(void);
 char				*get_folder_path(void);
 //	INIT	//
 t_parser			*init_parser(void);
 void				init_shell(char **envp);
-int					in_env_list(char *key);
-char				*ft_clean(char *key, char c, char d);
+int					in_env_list(char *keyy);
+char				*ft_clean(char *keyy, char c, char d);
 #endif // !MINISHELL

@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:16:27 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:19:58 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:43:06 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	define_redir(void)
 		{
 			if (cmd->fd_out != -1 || cmd->fd_in != -1)
 			{
-				get_fileno(redir->token_type, redir->next->token_value, cmd);
+				get_fileno(redir->type_of_token, redir->next->token_value, cmd);
 				redir = redir->next;
 				redir = redir->next;
 			}
@@ -81,7 +81,7 @@ int	define_redir(void)
 	return (1);
 }
 
-int	define_token_type(char *token)
+int	define_type_of_token(char *token)
 {
 	if (!ft_strncmp(token, "<\0", 2) && ft_strncmp(token, "<<", 2))
 		return (REDIR_IN);

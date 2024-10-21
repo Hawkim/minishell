@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 16:18:48 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:20:51 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:20:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	open_pipes(void)
 		{
 			if (pipe(cmd->fd_pipe) == -1)
 			{
-				free_minishell();
+				free_shell();
 				exit(11);
 			}
 			cmd->fd_out = cmd->fd_pipe[1];

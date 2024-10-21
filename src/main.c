@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:10:44 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/05 01:32:33 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	read_a_line(void)
 	if (if_eof(g_minishell.parser->input))
 	{
 		printf("exit\n");
-		free_minishell();
+		free_shell();
 		exit(0);
 	}
 	add_history(g_minishell.parser->input);
@@ -32,7 +32,7 @@ void	read_a_line(void)
 // change the response to received signals
 // clear the struct and ready for next input
 // open a prompt and wait for the input
-// send to parsing & execute
+// send to parsing & exeute
 
 void	shell_loop(void)
 {
@@ -44,7 +44,7 @@ void	shell_loop(void)
 		read_a_line();
 		if (!start_tokenization())
 			continue ;
-		start_execution();
+		start_exeution();
 	}
 }
 
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 		exit(init_error(1));
 	if (argc > 1 && argv)
 	{
-		free_minishell();
+		free_shell();
 		exit(init_error(2));
 	}
 	init_shell(envp);

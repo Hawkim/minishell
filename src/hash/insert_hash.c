@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:15:59 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:17 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 //Inserts a new variable at the end of the hashtable's correct hashlist
 
-void	insert_hash(char *key, char *value, int attribute)
+void	insert_hash(char *keyy, char *value, int attribute)
 {
 	t_hashtable	*table;
 	int			i;
 
 	table = g_minishell.envp;
-	i = hash_function(key, table->size);
-	bk_hash(&(table->list[i]), key, value, attribute);
+	i = hash_function(keyy, table->size);
+	bk_hash(&(table->list[i]), keyy, value, attribute);
 	table->count++;
-	free(key);
+	free(keyy);
 	free(value);
 }

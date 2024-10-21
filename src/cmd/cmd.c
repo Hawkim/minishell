@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:04:58 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/05 01:39:37 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_command	*cmd_create(int id)
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 	{
-		free_minishell();
+		free_shell();
 		exit(12);
 	}
 	cmd->id = id;
@@ -32,8 +32,8 @@ t_command	*cmd_create(int id)
 	cmd->redirections = NULL;
 	cmd->endpoint = -1;
 	cmd->is_piped = 0;
-	cmd->exec = NULL;
-	cmd->exec_path = NULL;
+	cmd->exe = NULL;
+	cmd->exe_path = NULL;
 	cmd->envp = NULL;
 	cmd->fd_in = -2;
 	cmd->fd_out = -2;
@@ -65,7 +65,7 @@ char	**token_to_str(t_token *token)
 	list = ft_calloc(sizeof(char *), size);
 	if (!list)
 	{
-		free_minishell();
+		free_shell();
 		exit(11);
 	}
 	i = 0;
@@ -78,7 +78,7 @@ char	**token_to_str(t_token *token)
 	return (list);
 }
 
-//prepare the array of strings to be executed
+//prepare the array of strings to be exeuted
 //by iterating through the command structure 
 //convert each token into an array of strings
 void	command_list(void)
@@ -88,7 +88,7 @@ void	command_list(void)
 	cmd = g_minishell.command;
 	while (cmd)
 	{
-		cmd->exec = token_to_str(cmd->commands);
+		cmd->exe = token_to_str(cmd->commands);
 		cmd = cmd->next;
 	}
 }

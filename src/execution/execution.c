@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   exeution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,10 +12,10 @@
 
 #include "../../minishell.h"
 
-// Create a execution envp object by allocating memory
+// Create a exeution envp object by allocating memory
 // fill it fill in a list of strings with the exported environment variables
 
-void	create_exec_envp(t_command *cmd)
+void	create_exe_envp(t_command *cmd)
 {
 	t_hashtable	*table;
 	t_hashpair	*list;
@@ -33,7 +33,7 @@ void	create_exec_envp(t_command *cmd)
 		while (list)
 		{
 			if (list->attribute == GLOBAL)
-				envp[j++] = ft_strnjoin(3, list->hash_key, "=",
+				envp[j++] = ft_strnjoin(3, list->hash_keyy, "=",
 						list->hash_value);
 			list = list->next;
 		}
@@ -54,14 +54,14 @@ void	close_fd(t_command *cmd, int fd_type)
 		close(cmd->fd_out);
 }
 
-// executes the t_cmd list of commands
+// exeutes the t_cmd list of commands
 // first searched for in the "PATH" -> 
-// check if the executable exists in each directory
-// fork and execute the command 
+// check if the exeutable exists in each directory
+// fork and exeute the command 
 // and then wait for the child to finish -> display prompt
 // the fork is needed so the minishell itself wont be interruppted
 // if pid = -1 -> error & exit
-// if pid = 0 -> child processexecute the cmd
+// if pid = 0 -> child processexeute the cmd
 // parent process should wait for the child to finish 
 // all the file descriptors should be closed
 static void	empty_cmd(char	*error)
@@ -78,7 +78,7 @@ static void	empty_cmd(char	*error)
 	}
 }
 
-void	exec_commands(t_command **cmd)
+void	exe_commands(t_command **cmd)
 {
 	pid_t		pid[MAX_PID];
 	int			id;
@@ -86,15 +86,15 @@ void	exec_commands(t_command **cmd)
 	id = -1;
 	while (*cmd)
 	{
-		exec_commands_parent_signals();
-		(*cmd)->exec_path = get_cmd_path(*cmd);
-		create_exec_envp(*cmd);
-		if (!ft_strncmp((*cmd)->exec[0], "\0", 1)
-			|| !ft_strncmp((*cmd)->exec[0], ".\0", 2))
-			empty_cmd((*cmd)->exec[0]);
+		exe_commands_parent_signals();
+		(*cmd)->exe_path = get_cmd_path(*cmd);
+		create_exe_envp(*cmd);
+		if (!ft_strncmp((*cmd)->exe[0], "\0", 1)
+			|| !ft_strncmp((*cmd)->exe[0], ".\0", 2))
+			empty_cmd((*cmd)->exe[0]);
 		else if ((*cmd)->fd_in == -1 || (*cmd)-> fd_out == -1)
 			return_error((*cmd)->error_file, (*cmd)->error_number);
-		else if ((*cmd)->exec_path && if_fork_needed (*cmd))
+		else if ((*cmd)->exe_path && if_fork_needed (*cmd))
 		{
 			pid[++id] = fork();
 			check_pid(cmd, pid, id);
@@ -108,9 +108,9 @@ void	exec_commands(t_command **cmd)
 // excute all the commands from the prompt line
 // open all the pipes
 // read and apply redir and heredoc
-// execute the cmds
+// exeute the cmds
 
-void	start_execution(void)
+void	start_exeution(void)
 {
 	t_command	*cmd;
 
@@ -120,7 +120,7 @@ void	start_execution(void)
 		return ;
 	while (cmd)
 	{
-		exec_commands(&cmd);
+		exe_commands(&cmd);
 		if (cmd)
 			cmd = cmd->next;
 	}

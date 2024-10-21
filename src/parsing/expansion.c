@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:21:27 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:09 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // if expandable, will expand and find the substitution
 // If '$' is followed by  '?',
-// responds with the last exit status of the last command executed
+// responds with the last exit status of the last command exeuted
 // If '$' is followed by digit or an invalid name, no response
 // If '$' is followed by valid name,
 // responds with the value of the environment variable by 
@@ -24,7 +24,7 @@
 char	**parameter_expansion(t_token *token, int *index)
 {
 	char	*expansion;
-	char	*key;
+	char	*keyy;
 	int		i;
 
 	i = 0;
@@ -37,9 +37,9 @@ char	**parameter_expansion(t_token *token, int *index)
 		while (ft_isalnum(token->token_value[(*index) + i])
 			|| token->token_value[(*index) + i] == '_')
 			i++;
-		key = ft_strndup (&token->token_value[*index], i--);
-		expansion = ft_strdup(key_search(key));
-		free(key);
+		keyy = ft_strndup (&token->token_value[*index], i--);
+		expansion = ft_strdup(keyy_search(keyy));
+		free(keyy);
 	}
 	(*index) = (*index) + 1 + (i);
 	return (split_variable_expansion(expansion));
@@ -54,7 +54,7 @@ char	**parameter_expansion(t_token *token, int *index)
 char	*replacement_expansion(t_token *token, int *index)
 {
 	char	*expansion;
-	char	*key;
+	char	*keyy;
 	int		i;
 
 	i = 0;
@@ -66,9 +66,9 @@ char	*replacement_expansion(t_token *token, int *index)
 	{
 		while (ft_isalnum(token->token_value[(*index) + i]))
 			i++;
-		key = ft_strndup (&token->token_value[*index], i--);
-		expansion = ft_strdup(key_search(key));
-		free(key);
+		keyy = ft_strndup (&token->token_value[*index], i--);
+		expansion = ft_strdup(keyy_search(keyy));
+		free(keyy);
 	}
 	*index = (*index) + (i) + 1;
 	return (expansion);

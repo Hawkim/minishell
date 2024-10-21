@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 16:14:21 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:16:21 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // heredoc: redirect the output of a command to a file
 //  prompted for input
-// then the input is written to the file when the command is executed
+// then the input is written to the file when the command is exeuted
 // keep prompting the user until it finds the delimiter 
 // if EOF is found -> error
 // fd is invaid -> error

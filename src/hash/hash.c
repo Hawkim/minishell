@@ -6,35 +6,37 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:55:22 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:13:53 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+//The DJB2 algorithm is known for its simplicity and good distribution properties, making it suitable for hash table implementations. 
+//The modulo operation at the end helps in mapping the hash value to an index within the bounds of the hash table size.
 
-unsigned long int	hash_function(char *key, unsigned int size)
+unsigned long int	hash_function(char *keyy, unsigned int size)
 {
 	unsigned long int	hash;
 	unsigned int		i;
 
 	hash = 5381;
 	i = 0;
-	while (key && key[i])
+	while (keyy && keyy[i])
 	{
-		hash = ((hash << 5) + hash) + key[i];
+		hash = ((hash << 5) + hash) + keyy[i];
 		i++;
 	}
 	return (hash % size);
 }
 
-void	make_hashes(char key_w[], char value_w[])
+void	make_hashes(char keyy_w[], char value_w[])
 {
-	char	*key;
+	char	*keyy;
 	char	*value;
 
-	key = ft_strdup(key_w);
+	keyy = ft_strdup(keyy_w);
 	value = ft_strdup(value_w);
-	insert_hash(key, value, GLOBAL);
+	insert_hash(keyy, value, GLOBAL);
 }
 
 // Takes the list of env variable inserts them into the hash table
@@ -53,27 +55,27 @@ static char	*update_shlvl(void)
 
 void	send_to_hashtable(char **variables)
 {
-	char	*key;
+	char	*keyy;
 	char	*value;
 	int		i;
 
 	i = 0;
 	while (variables[i])
 	{
-		key = get_key(variables[i]);
-		if (!ft_strncmp(key, "SHLVL", 5))
+		keyy = get_keyy(variables[i]);
+		if (!ft_strncmp(keyy, "SHLVL", 5))
 			value = update_shlvl();
 		else
 			value = get_value(variables[i]);
-		insert_hash(key, value, GLOBAL);
+		insert_hash(keyy, value, GLOBAL);
 		i++;
 	}
 	make_hashes("UID", "1000");
-	if (!key_search("OLDPWD"))
+	if (!keyy_search("OLDPWD"))
 	{
-		key = ft_strdup("OLDPWD");
+		keyy = ft_strdup("OLDPWD");
 		value = NULL;
-		insert_hash(key, value, GLOBAL);
+		insert_hash(keyy, value, GLOBAL);
 	}
 }
 
@@ -92,7 +94,7 @@ t_hashtable	*init_hastable(char *env_str)
 	table = malloc(sizeof(t_hashtable));
 	if (!table)
 	{
-		free_minishell();
+		free_shell();
 		exit (12);
 	}
 	table->size = i + 1;
@@ -100,8 +102,9 @@ t_hashtable	*init_hastable(char *env_str)
 	table->list = ft_calloc(sizeof(t_hashpair *), i + 1);
 	if (!table->list)
 	{
-		free_minishell();
+		free_shell();
 		exit (12);
 	}
+	free_shell();
 	return (table);
 }

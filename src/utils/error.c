@@ -6,14 +6,14 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:05:47 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/07 00:53:24 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // everthing related to error
-// If pid is negative, error while executing the command
+// If pid is negative, error while exeuting the command
 // If fd is negative,  error while opening the file
 
 int	heredoc_error(int *fd)
@@ -22,7 +22,7 @@ int	heredoc_error(int *fd)
 		close(fd[0]);
 	else
 	{
-		free_minishell();
+		free_shell();
 		exit(-54);
 	}
 	return (-3);
@@ -48,18 +48,18 @@ void	cmd_error(t_command *cmd, int nb)
 	if (nb == 1)
 	{
 		g_minishell.exit_code = 127;
-		print_error("cmd: ", cmd->exec[0], ": no such file in directory");
+		print_error("cmd: ", cmd->exe[0], ": no such file in directory");
 	}
 	else
 	{
-		if (!ft_strncmp(cmd->exec[0], ":\0", 2)
-			|| !ft_strncmp(cmd->exec[0], "!\0", 2)
-			|| !ft_strncmp(cmd->exec[0], "#\0", 2))
+		if (!ft_strncmp(cmd->exe[0], ":\0", 2)
+			|| !ft_strncmp(cmd->exe[0], "!\0", 2)
+			|| !ft_strncmp(cmd->exe[0], "#\0", 2))
 			return ;
 		else
 		{
 			g_minishell.exit_code = 127;
-			print_error("cmd: `", cmd->exec[0], "\': command not found.");
+			print_error("cmd: `", cmd->exe[0], "\': command not found.");
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:05:20 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/30 17:12:31 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	check_pid(t_command **cmd, pid_t pid[MAX_PID], int id)
 {
 	if (pid[id] == -1)
 	{
-		free_minishell();
+		free_shell();
 		exit(11);
 	}
 	if (pid[id] == 0)
-		exec_child(*cmd);
+		exe_child(*cmd);
 }

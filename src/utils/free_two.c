@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 10:07:54 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:20:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,22 @@ void	free_expansion(char **str, char *next)
 		free(next);
 }
 
-// free all the memory allocated by the execution list
-void	free_exec_list(char **exec)
+// free all the memory allocated by the exeution list
+void	free_exe_list(char **exe)
 {
 	int	i;
 
 	i = -1;
-	if (!exec)
+	if (!exe)
 		return ;
-	while (exec[++i])
-		free(exec[i]);
-	free(exec);
+	while (exe[++i])
+		free(exe[i]);
+	free(exe);
 }
 
 // free the entire t_cmd struct
 //clearing the command and redirect token's list,
-//the exec array and the exec_path string
+//the exe array and the exe_path string
 void	free_command(void)
 {
 	t_command	*curr;
@@ -66,11 +66,11 @@ void	free_command(void)
 		curr = curr->next;
 		free_tokens(&tmp->commands);
 		free_tokens(&tmp->redirections);
-		free_exec_list(tmp->exec);
+		free_exe_list(tmp->exe);
 		if (tmp->envp)
 			free_envp(tmp);
-		if (tmp->exec_path)
-			free(tmp->exec_path);
+		if (tmp->exe_path)
+			free(tmp->exe_path);
 		free(tmp);
 	}
 	g_minishell.command = NULL;

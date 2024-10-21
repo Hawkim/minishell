@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 10:07:54 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:09 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // everything related to free
 void	free_node(t_hashpair *curr)
 {
-	free(curr->hash_key);
+	free(curr->hash_keyy);
 	free(curr->hash_value);
 	free(curr);
 	curr = NULL;
@@ -31,7 +31,7 @@ void	free_hashpair(t_hashpair *node)
 	{
 		tmp = node;
 		node = tmp->next;
-		free(tmp->hash_key);
+		free(tmp->hash_keyy);
 		free(tmp->hash_value);
 		free(tmp);
 	}

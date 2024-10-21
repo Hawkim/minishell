@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:55:31 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:09 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:43:06 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ t_token	*token_dup(t_token *src)
 	dest = malloc (sizeof(t_token));
 	if (!dest)
 	{
-		free_minishell();
+		free_shell();
 		exit(12);
 	}
 	dest->token_value = ft_strdup(src->token_value);
-	dest->token_type = src->token_type;
+	dest->type_of_token = src->type_of_token;
 	dest->next = NULL;
 	return (dest);
 }

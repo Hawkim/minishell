@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:58:53 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:11:22 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	args_error(void)
 	return (0);
 }
 
-int	exit_num_error(char **exec)
+int	exit_num_error(char **exe)
 {
-	print_error("exit: ", exec[1], ": numeric argument required.");
+	print_error("exit: ", exe[1], ": numeric argument required.");
 	exit(2);
 	return (1);
 }
@@ -31,25 +31,25 @@ int	exit_num_error(char **exec)
 // exit failure -> non 0
 // check if numeric -> check if args valid -> exit
 // if not -> print error msg , exit with status 1
-int	ft_exit(char **exec)
+int	ft_exit(char **exe)
 {
 	int	result;
 
 	result = 0;
-	if (exec[1] && exec[2])
+	if (exe[1] && exe[2])
 	{
-		if (!ft_long(exec[1]))
-			exit_num_error(exec);
+		if (!ft_long(exe[1]))
+			exit_num_error(exe);
 		args_error();
 		return (1);
 	}
-	else if (exec[1] && ft_long(exec[1]))
-		result = ft_atol(exec[1]);
-	else if (exec[1] && !ft_long(exec[1]))
-		exit_num_error(exec);
+	else if (exe[1] && ft_long(exe[1]))
+		result = ft_atol(exe[1]);
+	else if (exe[1] && !ft_long(exe[1]))
+		exit_num_error(exe);
 	g_minishell.exit_code = result;
 	printf("exit\n");
-	free_minishell();
+	free_shell();
 	exit(g_minishell.exit_code);
 	return (0);
 }

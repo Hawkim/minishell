@@ -6,27 +6,27 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:18:39 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:10:08 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-//  change the value of the PWD and OLDPWD after cd is executed
+//  change the value of the PWD and OLDPWD after cd is exeuted
 
 char	**create_export(char *pwd, char *oldpwd)
 {
-	char	**exec;
+	char	**exe;
 	char	*cmd;
 
-	exec = ft_calloc(4, sizeof(char *));
-	if (!exec)
+	exe = ft_calloc(4, sizeof(char *));
+	if (!exe)
 		return (NULL);
 	cmd = ft_strdup("export");
-	exec[0] = cmd;
-	exec[1] = pwd;
-	exec[2] = oldpwd;
-	return (exec);
+	exe[0] = cmd;
+	exe[1] = pwd;
+	exe[2] = oldpwd;
+	return (exe);
 }
 
 int	change_cd(char *path)
@@ -34,7 +34,7 @@ int	change_cd(char *path)
 	char	*oldpwd;
 	char	*pwd;
 	char	*curr_pwd;
-	char	**exec;
+	char	**exe;
 
 	if (chdir(path) == -1)
 	{
@@ -45,13 +45,13 @@ int	change_cd(char *path)
 		g_minishell.exit_code = 1;
 		return (1);
 	}
-	oldpwd = ft_strjoin("OLDPWD=", key_search("PWD"));
+	oldpwd = ft_strjoin("OLDPWD=", keyy_search("PWD"));
 	curr_pwd = getcwd(NULL, 0);
 	pwd = ft_strjoin ("PWD=", curr_pwd);
 	free(curr_pwd);
-	exec = create_export(pwd, oldpwd);
-	ft_export(exec);
-	free_export(exec);
+	exe = create_export(pwd, oldpwd);
+	ft_export(exe);
+	free_export(exe);
 	return (0);
 }
 
@@ -60,7 +60,7 @@ int	cd_path(char *variable)
 	char	*path;
 	int		result;
 
-	path = key_search(variable);
+	path = keyy_search(variable);
 	result = 1;
 	if (!path || !*path)
 	{
@@ -81,27 +81,27 @@ int	cd_path(char *variable)
 // correct args -> cd to dest dir
 // more args ->error
 
-int	check_valid_option(char *exec)
+int	check_valid_option(char *exe)
 {
 	int	len;
 
-	len = ft_strlen(exec);
-	if (exec[0] == '-' && len > 1)
+	len = ft_strlen(exe);
+	if (exe[0] == '-' && len > 1)
 	{
-		print_error("cd: `", exec, "\': invalid option.");
+		print_error("cd: `", exe, "\': invalid option.");
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_cd(char **exec)
+int	ft_cd(char **exe)
 {
 	char	*param;
 	int		result;
 
-	param = exec[1];
+	param = exe[1];
 	result = 1;
-	if (param && exec[2])
+	if (param && exe[2])
 	{
 		print_error("cd:", NULL, " too many arguments.");
 		return (1);

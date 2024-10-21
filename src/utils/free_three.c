@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 10:07:54 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/27 17:20:20 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:20:29 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_parser(void)
 	g_minishell.parser = NULL;
 }
 
-void	free_minishell(void)
+void	free_shell(void)
 {
 	if (g_minishell.envp)
 		free_hashtable();

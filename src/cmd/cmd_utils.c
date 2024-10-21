@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:49:33 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/01 18:27:40 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:43:06 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ void	set_cmd_endp(t_command **cmd, t_token **list, int *prev)
 {
 	t_token	**position;
 
-	while (*list && (*list)->token_type < PIPE)
+	while (*list && (*list)->type_of_token < PIPE)
 	{
 		position = &(*cmd)->commands;
-		if (if_redir(*prev, (*list)-> token_type))
+		if (if_redir(*prev, (*list)-> type_of_token))
 			position = &(*cmd)->redirections;
 		add_back_tkn (position, token_dup(*list));
-		(*prev) = (*list)->token_type;
+		(*prev) = (*list)->type_of_token;
 		(*list) = (*list)->next;
 	}
 	if (*list)
 	{
-		(*cmd)->endpoint = (*list)->token_type;
-		(*prev) = (*list)->token_type;
+		(*cmd)->endpoint = (*list)->type_of_token;
+		(*prev) = (*list)->type_of_token;
 		(*list) = (*list)-> next;
 	}
 }

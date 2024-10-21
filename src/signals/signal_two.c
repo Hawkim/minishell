@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:41:31 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:09 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	parent_handler(int signal)
 
 // changes the default responses of the signals by parent shell
 // avoid the signals respond to the childshell
-void	exec_commands_parent_signals(void)
+void	exe_commands_parent_signals(void)
 {
 	signal(SIGQUIT, parent_handler);
 	signal(SIGINT, parent_handler);
@@ -50,7 +50,7 @@ void	exec_commands_parent_signals(void)
 // changes the default signals received by specific shortcuts
 // to avoid that these signals will respond to the parent shell,
 // instead of the current.
-void	exec_commands_child_signals(void)
+void	exe_commands_child_signals(void)
 {
 	signal(SIGINT, interrupt_handler);
 	signal(SIGQUIT, quit_handler);
