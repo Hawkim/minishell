@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:55:16 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:04:39 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/09 05:17:26 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	ft_atoi(const char *str)
 	{
 		num = num * 10 + (str[i] - '0');
 		i++;
-	}	
+	}
 	return (num * neg);
 }

@@ -6,13 +6,16 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:55:22 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:57:08 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-//The DJB2 algorithm is known for its simplicity and good distribution properties, making it suitable for hash table implementations. 
-//The modulo operation at the end helps in mapping the hash value to an index within the bounds of the hash table size.
+//The DJB2 algorithm is known for its simplicity and good distribution
+//properties,
+//making it suitable for hash table implementations. 
+//The modulo operation at the end helps in mapping the
+//hash value to an index within the bounds of the hash table size.
 
 unsigned long int	hash_function(char *keyy, unsigned int size)
 {

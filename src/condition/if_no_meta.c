@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:20:05 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/09 05:16:47 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ int	if_no_meta(char *keyy)
 	{
 		if ((!ft_isalnum(keyy[i]) && keyy[i] != '_') || keyy[i] == '-'
 			|| keyy[i] == '.' || keyy[i] == '{' || keyy[i] == '}'
-			|| keyy[i] == '*' || keyy[i] == '#' || keyy[i] == '@' || keyy[i] == '!'
-			|| keyy[i] == '^' || keyy[i] == '~' || keyy[i] == '\"' || keyy[i] == '|'
-			|| keyy[i] == '$' || keyy[i] == '\'' || keyy[i] == ';' || keyy[i] == '&'
+			|| keyy[i] == '*' || keyy[i] == '#' || keyy[i] == '@'
+			|| keyy[i] == '!' || keyy[i] == '^' || keyy[i] == '~'
+			|| keyy[i] == '\"' || keyy[i] == '|' || keyy[i] == '$'
+			|| keyy[i] == '\'' || keyy[i] == ';' || keyy[i] == '&'
 			|| keyy[i] == '=' || keyy[i] == ' ')
 			return (1);
 		i++;

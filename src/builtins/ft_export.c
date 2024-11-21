@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:21:16 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/09 05:07:54 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int	get_location(char *location_keyy)
 	tmp = table->list[i];
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->hash_keyy, location_keyy, ft_strlen(location_keyy)))
+		if (!ft_strncmp(tmp->hash_keyy,
+				location_keyy, ft_strlen(location_keyy)))
 			return (tmp->attribute);
 		tmp = tmp->next;
 	}

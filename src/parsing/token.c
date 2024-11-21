@@ -6,16 +6,12 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:42:04 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:43:06 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:40:07 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-//The flag which indicates
-//if the string will pass through the grammar check (0) or not (1)
-// If it is, defined the type_of_token enum with the define_type_of_token function.
-// return to new node token
 t_token	*create_token(char *token_value, int flag)
 {
 	t_token	*token;

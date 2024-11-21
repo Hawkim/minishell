@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:14:48 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/09 05:15:45 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "libft/include/libft.h"
 # define MAX_PID 1024
 
-# define  BLACK "\001\033[0;30m"
+# define BLACK "\001\033[0;30m"
 
 //token
 typedef struct s_token
@@ -89,7 +89,8 @@ typedef struct s_minishell
 extern t_minishell	g_minishell;
 // one global variable (including all variables in different strcut)
 
-enum	e_type_of_token{
+enum	e_type_of_token
+{
 	WORD,
 	REDIR_OUT,
 	APPEND,
@@ -98,12 +99,14 @@ enum	e_type_of_token{
 	PIPE
 };
 
-enum e_type{
+enum e_type
+{
 	GLOBAL,
 	LOCAL
 };
 
-enum e_fd_type {
+enum e_fd_type
+{
 	IN,
 	OUT,
 	BOTH,
@@ -145,7 +148,8 @@ void				close_all_fds(void);
 void				exe_child(t_command *cmd);
 
 //hash//
-void				bk_hash(t_hashpair **list, char *keyy, char *value, int atr);
+void				bk_hash(t_hashpair **list, char *keyy,
+						char *value, int atr);
 void				insert_hash(char *keyy, char *value, int attribute);
 void				send_to_hashtable(char **variables);
 t_hashtable			*init_hastable(char *env_str);

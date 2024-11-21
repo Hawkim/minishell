@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_keyy.c                                          :+:      :+:    :+:   */
+/*   get_keyy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:14:48 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/03 18:21:11 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:56:27 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_keyy(char *keyy_variable)
 	if (!ft_strchr(keyy_variable, '=') || !keyy_variable)
 		return (NULL);
 	while (keyy_variable[i] != '=')
-		i++; 
+		i++;
 	keyy = malloc(sizeof(char) * (++i));
 	ft_bzero(keyy, 0);
 	if (!keyy)
