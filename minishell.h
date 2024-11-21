@@ -6,7 +6,7 @@
 /*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:14:48 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/11/09 05:15:45 by nal-haki         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:04:56 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_minishell
 
 // global variable
 extern t_minishell	g_minishell;
-// one global variable (including all variables in different strcut)
+// one global variable (including all variables in a different strcut)
 
 enum	e_type_of_token
 {
