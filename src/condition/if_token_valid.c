@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   if_valid_token.c                                   :+:      :+:    :+:   */
+/*   if_token_valid.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:35:59 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:21:40 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:10:44 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	if_token_valid(const char *input, size_t i, size_t prev)
 		return (1);
 	if (if_in_quotes(input, i))
 		return (0);
-	if (ft_strchr("|<> ", input[i]))
+	if (ft_strchr("|<>\'\"\t ", input[i]))
 	{
 		if (i - prev == 1)
 		{
@@ -35,7 +35,7 @@ int	if_token_valid(const char *input, size_t i, size_t prev)
 			return (0);
 		return (1);
 	}
-	if (i > 0 && ft_strchr("|<> ", input[i - 1]))
+	if (i > 0 && ft_strchr("|<>\'\"\t ", input[i - 1]))
 		return (1);
 	return (0);
 }

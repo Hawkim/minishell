@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:21:16 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:22:38 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,11 @@ static void	deal_values(char *value, char *exe, char *keyy)
 	check_env(keyy, value);
 }
 
-static int	return_msg(char *keyy, int i, char *str)
-{
-	print_error("export:`", keyy, str);
-	free(keyy);
-	return (i);
-}
+// static int	return_msg(char *keyy, int i, char *str)
+// {
+// 	print_error("export:`", keyy, str);
+// 	free(keyy);
+// }
 
 int	ft_export(char **exe)
 {
@@ -74,10 +73,11 @@ int	ft_export(char **exe)
 		keyy = get_keyy(exe[i]);
 		if (!keyy || keyy[0] == '\0')
 			keyy = ft_strdup(exe[i]);
-		if (if_option(keyy))
-			return (return_msg(keyy, 2, "\': not a valid option."));
-		if (invalid_var_name(keyy))
-			return (return_msg(keyy, 1, "\': not a valid identifier."));
+		if (if_option(keyy) || invalid_var_name(keyy))
+		{
+			printf("%s: not a valid option.\n", keyy);
+			free(keyy);
+		}
 		else
 			deal_values(value, exe[i], keyy);
 	}

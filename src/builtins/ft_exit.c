@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:58:53 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:20:29 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	ft_exit(char **exe)
 		result = ft_atol(exe[1]);
 	else if (exe[1] && !ft_long(exe[1]))
 		exit_num_error(exe);
-	g_minishell.exit_code = result;
+	else if (exe[1])
+		g_minishell.exit_code = result;
 	printf("exit\n");
 	free_shell();
 	exit(g_minishell.exit_code);

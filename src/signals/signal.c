@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:41:31 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:20:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:08:25 by jabanna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,17 @@ void	quit_handler(int signal)
 void	main_loop_handler(int signal)
 {
 	(void)signal;
+	if (signal == SIGINT)
+	{
+		g_minishell.exit_code = 130;
+	}
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-// change input signal to avoid sigmals to respond with parent shell
+// change input signal to avoid signals to respond with parent shell
 void	change_signals(void)
 {
 	signal(SIGINT, main_loop_handler);
