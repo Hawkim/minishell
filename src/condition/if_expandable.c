@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   if_expandable.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 16:17:10 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:28:20 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ char	*ft_clean(char	*keyy, char c, char d)
 	return (new_str);
 }
 
-int	in_env_list(char *keyy)
+int	in_en(char *keyy, t_minishell *g_minishell)
 {
 	t_hashtable	*table;
 	t_hashpair	*tmp;
 	int			i;
 	char		*new_keyy;
 
-	table = g_minishell.envp;
+	table = g_minishell->envp;
 	new_keyy = ft_clean(keyy, '$', '\"');
 	i = hash_function(new_keyy, table->size);
 	tmp = table->list[i];

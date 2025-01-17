@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:55:22 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/11/21 13:57:08 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:17:21 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ unsigned long int	hash_function(char *keyy, unsigned int size)
 	return (hash % size);
 }
 
-void	make_hashes(char keyy_w[], char value_w[])
+void	make_hashes(char keyy_w[], char value_w[], t_minishell *g_minishell)
 {
 	char	*keyy;
 	char	*value;
 
 	keyy = ft_strdup(keyy_w);
 	value = ft_strdup(value_w);
-	insert_hash(keyy, value, GLOBAL);
+	insert_hash(keyy, value, GLOBAL, g_minishell);
 }
 
 // Takes the list of env variable inserts them into the hash table
@@ -56,7 +56,7 @@ static char	*update_shlvl(void)
 	return (value);
 }
 
-void	send_to_hashtable(char **variables)
+void	send_to_hashtable(char **variables, t_minishell *g_minishell)
 {
 	char	*keyy;
 	char	*value;
@@ -70,15 +70,15 @@ void	send_to_hashtable(char **variables)
 			value = update_shlvl();
 		else
 			value = get_value(variables[i]);
-		insert_hash(keyy, value, GLOBAL);
+		insert_hash(keyy, value, GLOBAL, g_minishell);
 		i++;
 	}
-	make_hashes("UID", "1000");
-	if (!keyy_search("OLDPWD"))
+	make_hashes("UID", "1000", g_minishell);
+	if (!keyy_search("OLDPWD", g_minishell))
 	{
 		keyy = ft_strdup("OLDPWD");
 		value = NULL;
-		insert_hash(keyy, value, GLOBAL);
+		insert_hash(keyy, value, GLOBAL, g_minishell);
 	}
 }
 
@@ -86,7 +86,7 @@ void	send_to_hashtable(char **variables)
 //initiate value
 //return table
 
-t_hashtable	*init_hastable(char *env_str)
+t_hashtable	*init_hastable(char *env_str, t_minishell *g_minishell)
 {
 	t_hashtable	*table;
 	int			i;
@@ -97,7 +97,7 @@ t_hashtable	*init_hastable(char *env_str)
 	table = malloc(sizeof(t_hashtable));
 	if (!table)
 	{
-		free_shell();
+		free_shell(g_minishell);
 		exit (12);
 	}
 	table->size = i + 1;
@@ -105,9 +105,9 @@ t_hashtable	*init_hastable(char *env_str)
 	table->list = ft_calloc(sizeof(t_hashpair *), i + 1);
 	if (!table->list)
 	{
-		free_shell();
+		free_shell(g_minishell);
 		exit (12);
 	}
-	free_shell();
 	return (table);
 }
+// free_shell(g_minishell);

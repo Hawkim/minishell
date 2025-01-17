@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:46 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:16:47 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Removes a variable from the hashtable's correct hashlist
-void	unset_hash(char *keyy)
+void	unset_hash(char *keyy, t_minishell *g_minishell)
 {
 	t_hashpair	*curr;
 	t_hashpair	*prev;
 	int			i;
 
-	i = hash_function(keyy, g_minishell.envp->size);
+	i = hash_function(keyy, g_minishell->envp->size);
 	prev = NULL;
-	curr = g_minishell.envp->list[i];
+	curr = g_minishell->envp->list[i];
 	while (curr)
 	{
 		if (!ft_strncmp(curr->hash_keyy, keyy, ft_strlen(keyy) + 1))
 		{
 			if (!prev)
-				g_minishell.envp->list[i] = curr->next;
+				g_minishell->envp->list[i] = curr->next;
 			else
 				prev->next = curr->next;
 			free_node(curr);
@@ -43,7 +43,7 @@ void	unset_hash(char *keyy)
 // do not deal with options so the arg should be only one
 // >> unset var
 // if more args passed it should throw error of too many args ?
-int	ft_unset(char **exe)
+int	ft_unset(char **exe, t_minishell *g_minishell)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ int	ft_unset(char **exe)
 			return (1);
 		}
 		else
-			unset_hash(exe[i]);
+			unset_hash(exe[i], g_minishell);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:51:37 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:51:22 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	if_tok_invalid(char *tok)
 	return (0);
 }
 
-int	ft_pwd(char **exe)
+int	ft_pwd(char **exe, t_minishell *g_minishell)
 {
 	char	*pwd;
 
@@ -32,7 +32,7 @@ int	ft_pwd(char **exe)
 	if (!pwd)
 	{
 		free(pwd);
-		pwd = keyy_search("PWD");
+		pwd = keyy_search("PWD", g_minishell);
 		printf("%s\n", pwd);
 	}
 	else

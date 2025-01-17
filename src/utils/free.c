@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 10:07:54 by nal-haki          #+#    #+#             */
-/*   Updated: 2025/01/13 17:02:12 by jabanna          ###   ########.fr       */
+/*   Updated: 2025/01/17 11:51:22 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ void	free_export(char **export)
 	free(export);
 }
 
-void	free_hashtable(void)
+void	free_hashtable(t_minishell *g_minishell)
 {
 	t_hashtable	*hashtable;
 	size_t		i;
 
 	i = 0;
-	hashtable = g_minishell.envp;
+	hashtable = g_minishell->envp;
 	while (i < hashtable->size)
 	{
 		free_hashpair(hashtable->list[i]);

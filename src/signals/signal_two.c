@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_two.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:41:31 by nal-haki          #+#    #+#             */
-/*   Updated: 2025/01/13 17:03:28 by jabanna          ###   ########.fr       */
+/*   Updated: 2025/01/17 12:15:48 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	parent_handler(int signal)
 	if (signal == SIGQUIT)
 	{
 		ft_putstr_fd("Quit (core dumped)\n", 2);
-		g_minishell.exit_code = 131;
+		g_minishell1.signal_code = 131;
 	}
 	if (signal == SIGINT)
 	{
 		printf("\n");
-		g_minishell.exit_code = 130;
+		g_minishell1.signal_code = 130;
 	}
 }
 

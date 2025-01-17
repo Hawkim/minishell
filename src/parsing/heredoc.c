@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 16:14:21 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:51:22 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@
 
 // WEXITSTATUS : returns the exit status of the child
 // WIFEXITED : returns true if the child terminated normally
-int	heredoc(char *name)
+int	heredoc(char *name, t_minishell *g_minishell)
 {
 	int	pid;
 	int	fd[2];
 	int	wstatus;
 
 	if (pipe(fd) == -1)
-		return (heredoc_error(NULL));
+		return (heredoc_error(NULL, g_minishell));
 	pid = fork();
 	if (pid == -1)
-		return (heredoc_error(NULL));
+		return (heredoc_error(NULL, g_minishell));
 	if (!pid)
 	{
 		close(fd[0]);
@@ -41,6 +41,6 @@ int	heredoc(char *name)
 	close(fd[1]);
 	waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 130)
-		return (heredoc_error(fd));
+		return (heredoc_error(fd, g_minishell));
 	return (fd[0]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_two.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 10:07:54 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:51:22 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	free_exe_list(char **exe)
 // free the entire t_cmd struct
 //clearing the command and redirect token's list,
 //the exe array and the exe_path string
-void	free_command(void)
+void	free_command(t_minishell *g_minishell)
 {
 	t_command	*curr;
 	t_command	*tmp;
 
-	curr = g_minishell.command;
+	curr = g_minishell->command;
 	while (curr)
 	{
 		tmp = curr;
@@ -73,7 +73,7 @@ void	free_command(void)
 			free(tmp->exe_path);
 		free(tmp);
 	}
-	g_minishell.command = NULL;
+	g_minishell->command = NULL;
 }
 
 void	free_tokens(t_token **tokens)

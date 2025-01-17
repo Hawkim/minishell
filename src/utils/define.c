@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   define.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:16:27 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:43:06 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:20:59 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	get_fileno(int redir_type, char *filename, t_command *cmd)
+void	get_fileno(int redir_type, char *filename, t_command *cmd,
+	t_minishell *g_minishell)
 {
 	if (redir_type == APPEND || redir_type == REDIR_OUT)
 	{
@@ -31,7 +32,7 @@ void	get_fileno(int redir_type, char *filename, t_command *cmd)
 	else if (redir_type == REDIR_IN)
 		cmd->fd_in = open(filename, O_RDONLY);
 	else if (redir_type == HEREDOC)
-		cmd->fd_in = heredoc(filename);
+		cmd->fd_in = heredoc(filename, g_minishell);
 	cmd->error_number = errno;
 	if (errno != 0)
 		cmd->error_file = filename;
@@ -40,11 +41,11 @@ void	get_fileno(int redir_type, char *filename, t_command *cmd)
 // check if fd is valid
 // 1 is valid,0 otherwise
 // exit_code 130 ->script terminated by Ctrl-C
-int	check_fds(t_command *cmd)
+int	check_fds(t_command *cmd, t_minishell *g_minishell)
 {
 	if (cmd->fd_in == -3)
 	{
-		g_minishell.exit_code = 130;
+		g_minishell->exit_code = 130;
 		return (0);
 	}
 	if (cmd->fd_in == -2)
@@ -56,12 +57,12 @@ int	check_fds(t_command *cmd)
 
 // define STDIN and STDOUT
 // negative fd is error
-int	define_redir(void)
+int	define_redir(t_minishell *g_minishell)
 {
 	t_command	*cmd;
 	t_token		*redir;
 
-	cmd = g_minishell.command;
+	cmd = g_minishell->command;
 	while (cmd)
 	{
 		redir = cmd->redirections;
@@ -69,12 +70,13 @@ int	define_redir(void)
 		{
 			if (cmd->fd_out != -1 || cmd->fd_in != -1)
 			{
-				get_fileno(redir->type_of_token, redir->next->token_value, cmd);
+				get_fileno(redir->type_of_token, redir->next->token_value, cmd,
+					g_minishell);
 				redir = redir->next;
 				redir = redir->next;
 			}
 		}
-		if (!check_fds(cmd))
+		if (!check_fds(cmd, g_minishell))
 			return (0);
 		cmd = cmd->next;
 	}

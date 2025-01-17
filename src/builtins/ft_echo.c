@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 01:13:40 by nal-haki          #+#    #+#             */
-/*   Updated: 2025/01/13 16:49:43 by jabanna          ###   ########.fr       */
+/*   Updated: 2025/01/17 13:12:38 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	ft_echo(char **exe)
 	while (exe && exe[i])
 	{
 		printf("%s", exe[i]);
-		// if (exe[i] && exe[i + 1] != NULL)
-		// 	printf(" ");
+		if (exe[i] && exe[i + 1] != NULL)
+			printf(" ");
 		i++;
 	}
 	if (n_flag == 0)

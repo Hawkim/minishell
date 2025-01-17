@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 16:18:48 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:20:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:51:22 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 // opens all necessary pipes by the previously defined PIPE endpoints
 //determines the correct fd for input and output 
 
-void	open_pipes(void)
+void	open_pipes(t_minishell *g_minishell)
 {
 	t_command	*cmd;
 
-	cmd = g_minishell.command;
+	cmd = g_minishell->command;
 	while (cmd)
 	{
 		if (cmd->endpoint == PIPE)
 		{
 			if (pipe(cmd->fd_pipe) == -1)
 			{
-				free_shell();
+				free_shell(g_minishell);
 				exit(11);
 			}
 			cmd->fd_out = cmd->fd_pipe[1];

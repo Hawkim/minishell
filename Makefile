@@ -30,7 +30,7 @@ SRCS			= main.c init_tool.c builtin.c builtin_utils.c ft_cd.c ft_echo.c ft_env.c
 				  free_two.c free_three.c pipe.c path.c if_builtin.c if_command_valid.c\
 				  if_double_operator.c if_expandable.c if_fork_needed.c if_grammar_valid.c\
 				  if_identifier_valid.c if_in_quotes.c if_pipe_valid.c if_quotes_valid.c\
-				  if_redir_valid.c if_redir.c if_token_valid.c if_no_meta.c
+				  if_redir_valid.c if_redir.c if_token_valid.c if_no_meta.c expansion_array.c
 
 VPATH 			= $(SRCS_PATH):$(SRCS_PATH)builtins:$(SRCS_PATH)init:$(SRCS_PATH)cmd:\
 				  $(SRCS_PATH)execution:$(SRCS_PATH)hash:$(SRCS_PATH)parsing:\

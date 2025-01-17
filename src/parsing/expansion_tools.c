@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:21:27 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/09/26 22:39:09 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:30:24 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	free_lines(char	*ret, char *prev, char *next, char *expansion)
 		free(expansion);
 }
 
-int	start_quote_expansion(t_token *token, int start, int *size, char quote)
+int	start_d_quote_expansion(t_token *token, int start, int *size,
+	t_minishell *g_minishell)
 {
 	char	*prev;
 	char	*expansion;
@@ -62,12 +63,12 @@ int	start_quote_expansion(t_token *token, int start, int *size, char quote)
 	if (token->token_value[i] == '$' && token->token_value[i + 1] == '\"'
 		&& token->token_value[i - 1] == '\"')
 		return (1);
-	actual_token = return_trim_token(token->token_value, quote, i);
+	actual_token = return_trim_token(token->token_value, '\"', i);
 	if (if_expandable(token->token_value[i + 1])
-		|| in_env_list(actual_token) || token->token_value[i + 1] == '?')
+		|| in_en(actual_token, g_minishell) || token->token_value[i + 1] == '?')
 	{
 		prev = ft_strndup(token->token_value, i++);
-		expansion = replacement_expansion(token, &i);
+		expansion = replacement_expansion(token, &i, g_minishell);
 		next = ft_strdup(&token->token_value[i]);
 		free(token->token_value);
 		token->token_value = ft_strnjoin(3, prev, expansion, next);
@@ -79,15 +80,33 @@ int	start_quote_expansion(t_token *token, int start, int *size, char quote)
 	return (0);
 }
 
-char	*expansion_array(int *exp_flag, int i, int *size, t_token **token)
+int	start_s_quote_expansion(t_token *token, int start, int *size,
+	t_minishell *g_minishell)
 {
+	char	*prev;
 	char	*expansion;
+	char	*next;
+	int		i;
+	char	*actual_token;
 
-	expansion = NULL;
-	if (!(*exp_flag))
-		expansion = NULL;
-	else if (*exp_flag && *size > 0)
-		expansion = ft_strndup(&(*token)->token_value[i], *size);
-	*exp_flag = 1;
-	return (expansion);
+	i = start + (*size);
+	if (token->token_value[i] == '$' && token->token_value[i + 1] == '\"'
+		&& token->token_value[i - 1] == '\"')
+		return (1);
+	actual_token = return_trim_token(token->token_value, '\'', i);
+	if (if_expandable(token->token_value[i + 1])
+		|| in_en(actual_token, g_minishell) || token->token_value[i + 1] == '?')
+	{
+		prev = ft_strndup(token->token_value, i++);
+		expansion = replacement_expansion(token, &i, g_minishell);
+		next = ft_strdup(&token->token_value[i]);
+		free(token->token_value);
+		token->token_value = ft_strnjoin(3, prev, expansion, next);
+		*size = (*size) + ft_strlen(expansion) - 2;
+		free_lines(prev, next, actual_token, expansion);
+		return (1);
+	}
+	free(actual_token);
+	return (0);
 }
+//in_en = in_env_list;

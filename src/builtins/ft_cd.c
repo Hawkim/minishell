@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:18:39 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 14:10:29 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:16:07 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**create_export(char *pwd, char *oldpwd)
 	return (exe);
 }
 
-int	change_cd(char *path)
+int	change_cd(char *path, t_minishell *g_minishell)
 {
 	char	*oldpwd;
 	char	*pwd;
@@ -42,36 +42,36 @@ int	change_cd(char *path)
 			print_error("cd: ", path, ": Not a directory.");
 		else
 			print_error("cd: ", path, ": No such file or directory.");
-		g_minishell.exit_code = 1;
+		g_minishell->exit_code = 1;
 		return (1);
 	}
-	oldpwd = ft_strjoin("OLDPWD=", keyy_search("PWD"));
+	oldpwd = ft_strjoin("OLDPWD=", keyy_search("PWD", g_minishell));
 	curr_pwd = getcwd(NULL, 0);
 	pwd = ft_strjoin ("PWD=", curr_pwd);
 	free(curr_pwd);
 	exe = create_export(pwd, oldpwd);
-	ft_export(exe);
+	ft_export(exe, g_minishell);
 	free_export(exe);
 	return (0);
 }
 
-int	cd_path(char *variable)
+int	cd_path(char *variable, t_minishell *g_minishell)
 {
 	char	*path;
 	int		result;
 
-	path = keyy_search(variable);
+	path = keyy_search(variable, g_minishell);
 	result = 1;
 	if (!path || !*path)
 	{
 		print_error("cd: `", variable, "\': is not set.");
-		g_minishell.exit_code = 1;
+		g_minishell->exit_code = 1;
 	}
 	else
 	{
 		if (!ft_strncmp ("OLDPWD", variable, 6))
 			printf("%s\n", path);
-		result = change_cd (path);
+		result = change_cd (path, g_minishell);
 	}
 	return (result);
 }
@@ -94,7 +94,7 @@ int	check_valid_option(char *exe)
 	return (0);
 }
 
-int	ft_cd(char **exe)
+int	ft_cd(char **exe, t_minishell *g_minishell)
 {
 	char	*param;
 	int		result;
@@ -110,10 +110,10 @@ int	ft_cd(char **exe)
 		return (2);
 	else if (!param || !*param || !ft_strncmp(param, "~\0", 2)
 		|| !ft_strncmp(param, "#\0", 2))
-		result = cd_path("HOME");
+		result = cd_path("HOME", g_minishell);
 	else if (!ft_strncmp(param, "-", 2))
-		result = cd_path("OLDPWD");
+		result = cd_path("OLDPWD", g_minishell);
 	else
-		result = change_cd(param);
+		result = change_cd(param, g_minishell);
 	return (result);
 }

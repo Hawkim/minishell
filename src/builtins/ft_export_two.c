@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:21:16 by nal-haki          #+#    #+#             */
-/*   Updated: 2025/01/13 17:22:38 by jabanna          ###   ########.fr       */
+/*   Updated: 2025/01/17 13:16:32 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 // if yes -> replace the value
 // if not -> add the value to the env 
 // if the export is local, add to env
-void	check_env(char *keyy, char *value)
+void	check_env(char *keyy, char *value, t_minishell *g_minishell)
 {
 	int	location;
 
-	location = get_location(keyy);
+	location = get_location(keyy, g_minishell);
 	if (location == -1)
-		insert_hash(keyy, value, GLOBAL);
+		insert_hash(keyy, value, GLOBAL, g_minishell);
 	else if (location == GLOBAL && value)
-		sub_hash(keyy, value);
+		sub_hash(keyy, value, g_minishell);
 	else if (location == LOCAL)
-		export_hash(keyy, GLOBAL);
+		export_hash(keyy, GLOBAL, g_minishell);
 }
 
 // Sets environment variables
@@ -47,10 +47,11 @@ static int	invalid_var_name(char *keyy)
 	return (0);
 }
 
-static void	deal_values(char *value, char *exe, char *keyy)
+static void	deal_values(char *value, char *exe, char *keyy,
+t_minishell *g_minishell)
 {
 	value = get_value(exe);
-	check_env(keyy, value);
+	check_env(keyy, value, g_minishell);
 }
 
 // static int	return_msg(char *keyy, int i, char *str)
@@ -59,7 +60,7 @@ static void	deal_values(char *value, char *exe, char *keyy)
 // 	free(keyy);
 // }
 
-int	ft_export(char **exe)
+int	ft_export(char **exe, t_minishell *g_minishell)
 {
 	char	*keyy;
 	char	*value;
@@ -67,7 +68,7 @@ int	ft_export(char **exe)
 
 	i = 0;
 	value = NULL;
-	check_input(exe);
+	check_input(exe, g_minishell);
 	while (exe[++i])
 	{
 		keyy = get_keyy(exe[i]);
@@ -79,7 +80,7 @@ int	ft_export(char **exe)
 			free(keyy);
 		}
 		else
-			deal_values(value, exe[i], keyy);
+			deal_values(value, exe[i], keyy, g_minishell);
 	}
 	return (0);
 }

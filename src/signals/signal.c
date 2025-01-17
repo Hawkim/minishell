@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 11:41:31 by nal-haki          #+#    #+#             */
-/*   Updated: 2025/01/13 17:08:25 by jabanna          ###   ########.fr       */
+/*   Updated: 2025/01/17 13:20:42 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 void	interrupt_handler(int signal)
 {
 	(void)signal;
-	free_shell();
 	exit(130);
 }
+	// free_shell();
 
 //  Handler for the SIGINT signal
 // exit 131 State not recoverable
@@ -28,9 +28,9 @@ void	interrupt_handler(int signal)
 void	quit_handler(int signal)
 {
 	(void)signal;
-	free_shell();
 	exit(131);
 }
+	// free_shell();
 
 //print a new line when the user presses Ctrl+C
 void	main_loop_handler(int signal)
@@ -38,7 +38,7 @@ void	main_loop_handler(int signal)
 	(void)signal;
 	if (signal == SIGINT)
 	{
-		g_minishell.exit_code = 130;
+		g_minishell1.signal_code = 130;
 	}
 	printf("\n");
 	rl_replace_line("", 0);
@@ -57,6 +57,7 @@ void	heredoc_handler(int signal)
 {
 	(void)signal;
 	printf("\n");
-	free_shell();
 	exit(130);
 }
+
+	// free_shell();

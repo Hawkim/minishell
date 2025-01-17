@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nal-haki <nal-haki@student.42beirut.com    +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:04:58 by nal-haki          #+#    #+#             */
-/*   Updated: 2024/10/21 13:31:51 by nal-haki         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:53:10 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 
 //exit 12 -> Cannot allocate memory
 
-t_command	*cmd_create(int id)
+t_command	*cmd_create(int id, t_minishell *g_minishell)
 {
 	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 	{
-		free_shell();
+		free_shell(g_minishell);
 		exit(12);
 	}
 	cmd->id = id;
@@ -55,7 +55,7 @@ size_t	token_list_len(t_token *list)
 	return (len);
 }
 
-char	**token_to_str(t_token *token)
+char	**token_to_str(t_token *token, t_minishell *g_minishell)
 {
 	size_t		size;
 	char		**list;
@@ -65,7 +65,7 @@ char	**token_to_str(t_token *token)
 	list = ft_calloc(sizeof(char *), size);
 	if (!list)
 	{
-		free_shell();
+		free_shell(g_minishell);
 		exit(11);
 	}
 	i = 0;
@@ -81,14 +81,14 @@ char	**token_to_str(t_token *token)
 //prepare the array of strings to be exeuted
 //by iterating through the command structure 
 //convert each token into an array of strings
-void	command_list(void)
+void	command_list(t_minishell *g_minishell)
 {
 	t_command	*cmd;
 
-	cmd = g_minishell.command;
+	cmd = g_minishell->command;
 	while (cmd)
 	{
-		cmd->exe = token_to_str(cmd->commands);
+		cmd->exe = token_to_str(cmd->commands, g_minishell);
 		cmd = cmd->next;
 	}
 }
@@ -101,23 +101,23 @@ void	command_list(void)
 // redirect list
 // add the endpoint to the command struct
 
-void	command_table(void)
+void	command_table(t_minishell *g_minishell)
 {
 	t_command	*cmd_node;
 	t_token		*token_list;
 	int			prev;
 	int			i;
 
-	token_list = g_minishell.parser->tokens;
+	token_list = g_minishell->parser->tokens;
 	prev = -1;
 	i = 0;
 	while (token_list)
 	{
-		cmd_node = cmd_create(i);
-		set_cmd_endp(&cmd_node, &token_list, &prev);
-		add_cmd_back(cmd_node);
+		cmd_node = cmd_create(i, g_minishell);
+		set_cmd_endp(&cmd_node, &token_list, &prev, &g_minishell);
+		add_cmd_back(cmd_node, g_minishell);
 		i++;
 	}
-	expand_cmd();
-	command_list();
+	expand_cmd(g_minishell);
+	command_list(g_minishell);
 }

@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabanna <jabanna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nal-haki <nal-haki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 15:55:31 by nal-haki          #+#    #+#             */
-/*   Updated: 2025/01/13 15:28:26 by jabanna          ###   ########.fr       */
+/*   Updated: 2025/01/17 13:20:00 by nal-haki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_token	*token_dup(t_token *src)
+t_token	*token_dup(t_token *src, t_minishell *g_minishell)
 {
 	t_token	*dest;
 
 	dest = malloc (sizeof(t_token));
 	if (!dest)
 	{
-		free_shell();
+		free_shell(g_minishell);
 		exit(12);
 	}
 	dest->token_value = ft_strdup(src->token_value);
@@ -49,7 +49,8 @@ void	add_back_tkn(t_token **list, t_token *new_token)
 // 2. copying the token string and size
 // 3. creating a new token node
 // 4. adding the new token node to the token's list
-void	add_to_token_list(const char *input, size_t size)
+void	add_to_token_list(const char *input, size_t size,
+	t_minishell *g_minishell)
 {
 	t_token	*token_list;
 	char	*token;
@@ -62,6 +63,6 @@ void	add_to_token_list(const char *input, size_t size)
 	if (!size || !(*input))
 		return ;
 	token = ft_strndup(input, size);
-	token_list = create_token(token, 0);
-	add_back_tkn(&g_minishell.parser->tokens, token_list);
+	token_list = create_token(token, 0, g_minishell);
+	add_back_tkn(&g_minishell->parser->tokens, token_list);
 }

@@ -15,7 +15,7 @@
 // Create a exeution envp object by allocating memory
 // fill it fill in a list of strings with the exported environment variables
 
-void	create_exe_envp(t_command *cmd)
+void	create_exe_envp(t_command *cmd, t_minishell *g_minishell)
 {
 	t_hashtable	*table;
 	t_hashpair	*list;
@@ -25,7 +25,7 @@ void	create_exe_envp(t_command *cmd)
 
 	i = 0;
 	j = 0;
-	table = g_minishell.envp;
+	table = g_minishell->envp;
 	envp = malloc (sizeof(char *) * (table->count + 1));
 	while (i < table->size)
 	{
@@ -64,21 +64,21 @@ void	close_fd(t_command *cmd, int fd_type)
 // if pid = 0 -> child processexeute the cmd
 // parent process should wait for the child to finish 
 // all the file descriptors should be closed
-static void	empty_cmd(char	*error)
+static void	empty_cmd(char	*error, t_minishell *g_minishell)
 {
 	if (!ft_strncmp(error, "\0", 1))
 	{
 		print_error("cmd: `", error, "\': Command not found.");
-		g_minishell.exit_code = 127;
+		g_minishell->exit_code = 127;
 	}
 	if (!ft_strncmp(error, ".\0", 2))
 	{
 		print_error("cmd: `", error, "\': Filename argument required.");
-		g_minishell.exit_code = 2;
+		g_minishell->exit_code = 2;
 	}
 }
 
-void	exe_commands(t_command **cmd)
+void	exe_commands(t_command **cmd, t_minishell *g_minishell)
 {
 	pid_t		pid[MAX_PID];
 	int			id;
@@ -87,22 +87,22 @@ void	exe_commands(t_command **cmd)
 	while (*cmd)
 	{
 		exe_commands_parent_signals();
-		(*cmd)->exe_path = get_cmd_path(*cmd);
-		create_exe_envp(*cmd);
+		(*cmd)->exe_path = get_cmd_path(*cmd, g_minishell);
+		create_exe_envp(*cmd, g_minishell);
 		if (!ft_strncmp((*cmd)->exe[0], "\0", 1)
 			|| !ft_strncmp((*cmd)->exe[0], ".\0", 2))
-			empty_cmd((*cmd)->exe[0]);
+			empty_cmd((*cmd)->exe[0], g_minishell);
 		else if ((*cmd)->fd_in == -1 || (*cmd)-> fd_out == -1)
-			return_error((*cmd)->error_file, (*cmd)->error_number);
-		else if ((*cmd)->exe_path && if_fork_needed (*cmd))
+			return_error((*cmd)->error_file, (*cmd)->error_number, g_minishell);
+		else if ((*cmd)->exe_path && if_fork_needed (*cmd, g_minishell))
 		{
 			pid[++id] = fork();
-			check_pid(cmd, pid, id);
+			check_pid(cmd, pid, id, g_minishell);
 		}
 		close_fd(*cmd, BOTH);
 		*cmd = (*cmd)->next;
 	}
-	wait_pid (pid, id);
+	wait_pid (pid, id, g_minishell);
 }
 
 // excute all the commands from the prompt line
@@ -110,18 +110,19 @@ void	exe_commands(t_command **cmd)
 // read and apply redir and heredoc
 // exeute the cmds
 
-void	start_exeution(void)
+void	start_exeution(t_minishell *g_minishell)
 {
 	t_command	*cmd;
 
-	cmd = g_minishell.command;
-	open_pipes();
-	if (!define_redir())
+	cmd = g_minishell->command;
+	open_pipes(g_minishell);
+	if (!define_redir(g_minishell))
 		return ;
 	while (cmd)
 	{
-		exe_commands(&cmd);
+		exe_commands(&cmd, g_minishell);
 		if (cmd)
 			cmd = cmd->next;
 	}
+	g_minishell1.signal_code = g_minishell->exit_code;
 }
